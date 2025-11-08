@@ -1,6 +1,6 @@
 import { AppHeader } from "@/components/app-header"
 import { DashboardOverview } from "@/components/dashboard-overview"
-import { TeamMetrics } from "@/components/team-metrics"
+import { TeamView } from "@/components/team-view"
 import { ProjectsList } from "@/components/projects-list"
 import { ProspectiveHires } from "@/components/prospective-hires"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -25,7 +25,7 @@ export default function DashboardPage() {
               <TabsTrigger value="prospective">Prospective Hires</TabsTrigger>
             </TabsList>
             <TabsContent value="team" className="mt-6">
-              <TeamMetrics />
+              <TeamView />
             </TabsContent>
             <TabsContent value="projects" className="mt-6">
               <ProjectsList />
