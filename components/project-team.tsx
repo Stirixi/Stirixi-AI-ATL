@@ -2,63 +2,19 @@ import { Card } from '@/components/ui/card';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
+import { projectAPI, engineerAPI, prospectAPI } from '@/lib/api-client';
+import type { Engineer, Prospect, Project } from '@/lib/types';
 
-export function ProjectTeam({ projectId }: { projectId: string }) {
-  // Mock data
-  const team = [
-    {
-      id: 1,
-      name: 'Sarah Chen',
-      role: 'Tech Lead',
-      prsMerged: 24,
-      status: 'active',
-    },
-    {
-      id: 2,
-      name: 'Marcus Johnson',
-      role: 'Backend',
-      prsMerged: 19,
-      status: 'active',
-    },
-    {
-      id: 3,
-      name: 'Emma Rodriguez',
-      role: 'Frontend',
-      prsMerged: 27,
-      status: 'active',
-    },
-    {
-      id: 4,
-      name: 'Alex Kim',
-      role: 'DevOps',
-      prsMerged: 11,
-      status: 'active',
-    },
-    {
-      id: 5,
-      name: 'Jordan Smith',
-      role: 'QA Engineer',
-      prsMerged: 7,
-      status: 'active',
-    },
-  ];
+export async function ProjectTeam({ projectId }: { projectId: string }) {
+  // fetch project, engineers, prospects
+  const project = (await projectAPI.getById(projectId)) as Project;
+  const engineers = (await engineerAPI.getAll()) as Engineer[];
+  const prospects = (await prospectAPI.getAll()) as Prospect[];
 
-  const goodFitProspects = [
-    {
-      id: 101,
-      name: 'David Park',
-      role: 'Senior Frontend Engineer',
-      performance: 8.9,
-      fitReason: 'Strong React & TypeScript skills',
-    },
-    {
-      id: 105,
-      name: 'Robert Zhang',
-      role: 'Senior Backend Engineer',
-      performance: 9.1,
-      fitReason: 'OAuth expertise',
-    },
-  ];
+  const team = engineers.filter((e) => project.engineers.includes(e._id));
+  const goodFitProspects = prospects.filter((p) =>
+    project.prospects.includes(p._id)
+  );
 
   return (
     <Card className="p-6 bg-card border-border">
@@ -70,8 +26,13 @@ export function ProjectTeam({ projectId }: { projectId: string }) {
           </div>
 
           <div className="space-y-3">
+            {team.length === 0 && (
+              <div className="text-sm text-muted-foreground">
+                No engineers assigned.
+              </div>
+            )}
             {team.map((member) => (
-              <Link key={member.id} href={`/engineers/${member.id}`}>
+              <Link key={member._id} href={`/engineers/${member._id}`}>
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-secondary/50 border border-border hover:bg-secondary/70 transition-colors cursor-pointer">
                   <Avatar className="h-10 w-10">
                     <AvatarFallback className="bg-primary text-primary-foreground text-sm">
@@ -86,12 +47,12 @@ export function ProjectTeam({ projectId }: { projectId: string }) {
                       {member.name}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {member.role}
+                      {member.title}
                     </p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-semibold text-foreground">
-                      {member.prsMerged}
+                      {member.pr_count}
                     </p>
                     <p className="text-xs text-muted-foreground">PRs merged</p>
                   </div>
@@ -110,8 +71,13 @@ export function ProjectTeam({ projectId }: { projectId: string }) {
           </div>
 
           <div className="space-y-3">
+            {goodFitProspects.length === 0 && (
+              <div className="text-sm text-muted-foreground">
+                No prospective matches.
+              </div>
+            )}
             {goodFitProspects.map((prospect) => (
-              <Link key={prospect.id} href={`/prospective/${prospect.id}`}>
+              <Link key={prospect._id} href={`/prospective/${prospect._id}`}>
                 <div className="flex items-center gap-3 p-3 rounded-lg bg-primary/5 border border-primary/20 hover:bg-primary/10 transition-colors cursor-pointer">
                   <Avatar className="h-10 w-10">
                     <AvatarFallback className="bg-primary/20 text-primary text-sm">
@@ -126,14 +92,14 @@ export function ProjectTeam({ projectId }: { projectId: string }) {
                       {prospect.name}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      {prospect.fitReason}
+                      {prospect.title}
                     </p>
                   </div>
                   <div className="text-right">
                     <p className="text-sm font-semibold text-green-500">
-                      {prospect.performance.toFixed(1)}
+                      {prospect.performance}
                     </p>
-                    <p className="text-xs text-muted-foreground">score</p>
+                    <p className="text-xs text-muted-foreground">Performance Score</p>
                   </div>
                 </div>
               </Link>

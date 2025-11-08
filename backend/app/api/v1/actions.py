@@ -17,8 +17,17 @@ async def get_actions(
     db = get_database()
     query = {}
     
+    # Build MongoDB query with filters
     if engineer_id and ObjectId.is_valid(engineer_id):
         query["engineer"] = ObjectId(engineer_id)
+    else:
+        # If no specific engineer filter, exclude actions with invalid engineer field
+        query["engineer"] = {
+            "$exists": True,
+            "$ne": "",
+            "$type": "objectId"
+        }
+    
     if project_id:
         query["project"] = project_id
     if event:

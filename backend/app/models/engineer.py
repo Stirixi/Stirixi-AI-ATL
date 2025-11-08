@@ -47,7 +47,7 @@ class Engineer(BaseModel):
     avg_review_time: Optional[float] = None  # in hours
     token_cost: float = 0.0
     prompt_history: List[PyObjectId] = []  # Array of ObjectIds referencing Prompt
-    monthly_performance: List[int] = []  # Array of performance scores
+    monthly_performance: List[float] = []  # Array of performance scores (1.0-10.0)
     recent_actions: List[PyObjectId] = []  # Array of ObjectIds referencing Action
 
     model_config = {

@@ -19,6 +19,7 @@ class Prospect(BaseModel):
     bug_count: int = 0
     avg_review_time: Optional[float] = None  # in hours
     token_cost: float = 0.0
+    performance: float = 0.0  # Performance score 1.0-10.0
 
     model_config = {
         "populate_by_name": True,

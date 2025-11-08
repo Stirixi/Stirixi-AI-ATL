@@ -69,7 +69,7 @@ export function EngineerActivity({ engineerId }: { engineerId: string }) {
       <div className="space-y-4">
         {activities.map((activity) => (
           <div key={activity.id} className="flex gap-4 p-4 rounded-lg bg-secondary/50 border border-border">
-            <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
+            <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary shrink-0">
               {getIcon(activity.type)}
             </div>
             <div className="flex-1 min-w-0">
