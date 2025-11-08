@@ -1,4 +1,5 @@
 import { AppHeader } from '@/components/app-header';
+import { BackButton } from '@/components/back-button';
 import { EngineerProfile } from '@/components/engineer-profile';
 import { EngineerMetrics } from '@/components/engineer-metrics';
 import { prospectAPI } from '@/lib/api-client';
@@ -55,6 +56,7 @@ export default async function ProspectiveHirePage({
     <div className="min-h-screen bg-background">
       <AppHeader />
       <main className="container mx-auto px-6 py-8">
+        <BackButton />
         <div className="space-y-6">
           <EngineerProfile engineer={engineerData} isProspective />
           <EngineerMetrics
