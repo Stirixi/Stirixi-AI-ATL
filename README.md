@@ -75,3 +75,22 @@ The design system follows shadcn conventions: update tokens in `styles` and `app
 3. Configure environment variables via `.env.local` (none are required for the mock data, but Next.js will auto-load them during `next build`/`next start`).
 
 Deploying to Vercel/Netlify works out-of-the-box because no server-side secrets are required yet. Add your actual integration keys through environment variables before shipping to production.
+
+### Automated Vultur deployment
+
+The repo now ships with Dockerfiles for both the FastAPI backend (`backend/Dockerfile`) and the Next.js frontend (`frontend.Dockerfile`), a production compose stack (`deploy/docker-compose.prod.yml`), and a GitHub Actions workflow (`.github/workflows/deploy.yml`) that builds/pushes GHCR images and redeploys the Vultur VM whenever `main` receives a new commit.
+
+1. **GitHub Secrets** – add the following under *Settings → Secrets and variables → Actions*:
+   - `VULTUR_HOST`, `VULTUR_USER`, `VULTUR_PASSWORD` – SSH credentials for `104.156.255.210`.
+   - `GHCR_DEPLOY_USERNAME`, `GHCR_DEPLOY_TOKEN` – a PAT (read:packages) so the server can pull from GHCR.
+   - `MONGODB_URL`, `MONGODB_DB_NAME` – point to Atlas or accept the default `mongodb://mongo:27017` + `stirixi_ai_atl`.
+   - `NEXT_PUBLIC_API_URL` – e.g. `http://104.156.255.210:8000/api/v1`; baked into the frontend image at build time.
+   - `CORS_ORIGINS` – comma-separated origin list for the backend (include your production URL).
+2. **Repository variables (optional)** – set `DEPLOY_PATH` if you prefer a path other than `/opt/stirixi-ai-atl` on the server.
+3. **Firewall/ports** – ensure ports `80` (frontend) and `8000` (backend API) are open on the Vultur instance.
+4. **Mongo persistence** – the compose file mounts a `mongo_data` volume in Docker; Atlas users can comment out the `mongo` service and update `MONGODB_URL` accordingly.
+
+Once configured, every push to `main` will:
+
+- Build/push `ghcr.io/<owner>/<repo>-backend` and `...-frontend` images (tagged with the commit SHA and `latest`).
+- Copy the `deploy` bundle to the server, install Docker/Compose if missing, refresh the `.env` file, log in to GHCR, pull the latest images, and run `docker compose up -d --remove-orphans` so the backend, frontend, and MongoDB stay in sync.

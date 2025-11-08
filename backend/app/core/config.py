@@ -1,7 +1,9 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
-from typing import List
-import os
+import json
 from pathlib import Path
+from typing import List, Sequence
+
+from pydantic import field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Get the backend directory (where .env should be)
 # config.py is in app/core/, so go up 2 levels to get to backend/
@@ -31,6 +33,22 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
+    @field_validator("CORS_ORIGINS", mode="before")
+    @classmethod
+    def parse_cors_origins(cls, value: Sequence[str] | str) -> Sequence[str]:
+        if isinstance(value, str):
+            value = value.strip()
+            if not value:
+                return []
+            if value.startswith("["):
+                try:
+                    parsed = json.loads(value)
+                except json.JSONDecodeError as exc:
+                    raise ValueError("CORS_ORIGINS must be a JSON array or comma separated list") from exc
+                return parsed
+            return [origin.strip() for origin in value.split(",") if origin.strip()]
+        return value
+
 
 settings = Settings()
 
@@ -46,4 +64,3 @@ if settings.ENVIRONMENT == "development":
     print(f"   MONGODB_URL: {settings.MONGODB_URL[:50]}..." if len(settings.MONGODB_URL) > 50 else f"   MONGODB_URL: {settings.MONGODB_URL}")
     print(f"   MONGODB_DB_NAME: {settings.MONGODB_DB_NAME}")
     print(f"   API_PORT: {settings.API_PORT}")
-

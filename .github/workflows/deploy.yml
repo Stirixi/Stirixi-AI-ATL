@@ -1,0 +1,125 @@
+name: Deploy to Vultur
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  DEPLOY_PATH: ${{ vars.DEPLOY_PATH || '/opt/stirixi-ai-atl' }}
+  MONGODB_URL: ${{ secrets.MONGODB_URL || 'mongodb://mongo:27017' }}
+  MONGODB_DB_NAME: ${{ secrets.MONGODB_DB_NAME || 'stirixi_ai_atl' }}
+  NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1' }}
+  CORS_ORIGINS: ${{ secrets.CORS_ORIGINS || 'http://localhost:3000' }}
+  GHCR_DEPLOY_USERNAME: ${{ secrets.GHCR_DEPLOY_USERNAME }}
+  GHCR_DEPLOY_TOKEN: ${{ secrets.GHCR_DEPLOY_TOKEN }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Derive image names
+        id: images
+        run: |
+          OWNER_SLUG=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
+          REPO_SLUG=$(echo "$REPO_NAME" | tr '[:upper:]' '[:lower:]')
+          echo "OWNER_SLUG=$OWNER_SLUG" >> $GITHUB_ENV
+          echo "REPO_SLUG=$REPO_SLUG" >> $GITHUB_ENV
+          echo "BACKEND_IMAGE=${REGISTRY}/$OWNER_SLUG/${REPO_SLUG}-backend" >> $GITHUB_ENV
+          echo "FRONTEND_IMAGE=${REGISTRY}/$OWNER_SLUG/${REPO_SLUG}-frontend" >> $GITHUB_ENV
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          file: backend/Dockerfile
+          push: true
+          tags: |
+            ${{ env.BACKEND_IMAGE }}:${{ github.sha }}
+            ${{ env.BACKEND_IMAGE }}:latest
+
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: frontend.Dockerfile
+          push: true
+          build-args: |
+            NEXT_PUBLIC_API_URL=${{ env.NEXT_PUBLIC_API_URL }}
+          tags: |
+            ${{ env.FRONTEND_IMAGE }}:${{ github.sha }}
+            ${{ env.FRONTEND_IMAGE }}:latest
+
+      - name: Package deploy artifacts
+        run: |
+          tar -czf deploy.tar.gz -C deploy .
+
+      - name: Upload deploy artifacts to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VULTUR_HOST }}
+          username: ${{ secrets.VULTUR_USER }}
+          password: ${{ secrets.VULTUR_PASSWORD }}
+          source: "deploy.tar.gz"
+          target: "/tmp"
+
+      - name: Run remote deployment
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.VULTUR_HOST }}
+          username: ${{ secrets.VULTUR_USER }}
+          password: ${{ secrets.VULTUR_PASSWORD }}
+          envs: DEPLOY_PATH,BACKEND_IMAGE,FRONTEND_IMAGE,MONGODB_URL,MONGODB_DB_NAME,CORS_ORIGINS,GHCR_DEPLOY_USERNAME,GHCR_DEPLOY_TOKEN
+          script: |
+            set -euo pipefail
+            export DEBIAN_FRONTEND=noninteractive
+            DEPLOY_DIR=${DEPLOY_PATH:-/opt/stirixi-ai-atl}
+            mkdir -p "$DEPLOY_DIR"
+            if ! command -v docker >/dev/null 2>&1; then
+              curl -fsSL https://get.docker.com | sh
+            fi
+            if ! docker compose version >/dev/null 2>&1; then
+              DOCKER_CONFIG=${HOME}/.docker
+              mkdir -p "$DOCKER_CONFIG/cli-plugins"
+              curl -SL https://github.com/docker/compose/releases/download/v2.29.7/docker-compose-linux-x86_64 -o "$DOCKER_CONFIG/cli-plugins/docker-compose"
+              chmod +x "$DOCKER_CONFIG/cli-plugins/docker-compose"
+            fi
+            tar -xzf /tmp/deploy.tar.gz -C "$DEPLOY_DIR"
+            rm -f /tmp/deploy.tar.gz
+            cat <<ENVVARS > "$DEPLOY_DIR/.env"
+BACKEND_IMAGE=${BACKEND_IMAGE}:latest
+FRONTEND_IMAGE=${FRONTEND_IMAGE}:latest
+BACKEND_PORT=8000
+FRONTEND_PORT=80
+MONGODB_URL=${MONGODB_URL}
+MONGODB_DB_NAME=${MONGODB_DB_NAME}
+CORS_ORIGINS=${CORS_ORIGINS}
+ENVVARS
+            cd "$DEPLOY_DIR"
+            docker login ghcr.io -u "$GHCR_DEPLOY_USERNAME" -p "$GHCR_DEPLOY_TOKEN"
+            docker compose -f docker-compose.prod.yml --env-file .env pull backend frontend || true
+            docker compose -f docker-compose.prod.yml --env-file .env up -d --remove-orphans
+            docker image prune -f

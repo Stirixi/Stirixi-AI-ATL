@@ -1,0 +1,13 @@
+.git
+.gitignore
+node_modules
+.next
+backend/__pycache__
+backend/.venv
+backend/venv
+backend/.env
+**/__pycache__
+.env
+.vscode
+.idea
+README.md
