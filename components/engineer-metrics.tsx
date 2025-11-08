@@ -430,13 +430,24 @@ export function EngineerMetrics({
             Monthly Performance Trend
           </h3>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={performanceHistory}>
+            <LineChart
+              data={performanceHistory}
+              margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+            >
               <CartesianGrid
                 strokeDasharray="3 3"
                 stroke="hsl(var(--border))"
               />
-              <XAxis dataKey="month" stroke="hsl(var(--muted-foreground))" />
-              <YAxis domain={[0, 10]} stroke="hsl(var(--muted-foreground))" />
+              <XAxis
+                dataKey="month"
+                stroke="#ffffff"
+                tick={{ fill: '#ffffff' }}
+              />
+              <YAxis
+                domain={[0, 10]}
+                stroke="#ffffff"
+                tick={{ fill: '#ffffff' }}
+              />
               <Tooltip
                 contentStyle={{
                   backgroundColor: 'hsl(var(--card))',
