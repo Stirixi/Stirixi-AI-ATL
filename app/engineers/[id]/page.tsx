@@ -1,5 +1,3 @@
-"use client"
-
 import { AppHeader } from "@/components/app-header"
 import { EngineerProfile } from "@/components/engineer-profile"
 import { EngineerMetrics } from "@/components/engineer-metrics"
@@ -11,7 +9,7 @@ function getPerformanceColor(score: number): string {
   return "#ef4444" // red
 }
 
-export default function EngineerPage({ params }: { params: { id: string } }) {
+export default async function EngineerPage({ params }: { params: { id: string } }) {
   const quarterlyData = [
     { quarter: "Q1 2024", performance: 7.8, companyAvg: 7.2 },
     { quarter: "Q2 2024", performance: 8.1, companyAvg: 7.4 },
@@ -19,14 +17,16 @@ export default function EngineerPage({ params }: { params: { id: string } }) {
     { quarter: "Q4 2024", performance: 8.7, companyAvg: 7.5 },
   ]
 
+  const { id } = await params
+
   return (
     <div className="min-h-screen bg-background">
       <AppHeader />
       <main className="container mx-auto px-6 py-8">
         <div className="space-y-6">
-          <EngineerProfile engineerId={params.id} />
-          <EngineerMetrics engineerId={params.id} />
-          <EngineerActivity engineerId={params.id} />
+          <EngineerProfile engineerId={id} />
+          <EngineerMetrics engineerId={id} />
+          <EngineerActivity engineerId={id} />
         </div>
       </main>
     </div>
