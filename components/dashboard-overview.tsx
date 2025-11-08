@@ -18,7 +18,7 @@ export function DashboardOverview() {
       icon: GitBranch,
     },
     {
-      label: "Team Velocity",
+      label: "Overall Performance",
       value: "85%",
       change: "+5%",
       trend: "up",
