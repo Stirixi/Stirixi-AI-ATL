@@ -1,0 +1,30 @@
+[
+  {
+    "importance": "critical",
+    "target_date": "2026-01-18",
+    "start_date": "2025-10-12",
+    "description": "Harden core workflows in packages/helios drift via stricter typing, idempotent handlers, and better error boundaries for orders, carts, and checkouts.",
+    "title": "Core Helios Drift Engine Stability"
+  },
+  {
+    "importance": "high",
+    "target_date": "2026-03-11",
+    "start_date": "2025-10-26",
+    "description": "Ensure atomic stock updates across packages/inventory and stock-location with robust locking, deduped events, and accurate multi-warehouse availability.",
+    "title": "Inventory and Stock Location Consistency"
+  },
+  {
+    "importance": "medium",
+    "target_date": "2026-03-01",
+    "start_date": "2025-10-17",
+    "description": "Align packages/helios drift-js and helios drift-react APIs with core routes, improving typing, pagination, and error messages for easier storefront integration.",
+    "title": "SDK and React Client DX Improvements"
+  },
+  {
+    "importance": "exploratory",
+    "target_date": "2026-03-06",
+    "start_date": "2025-10-17",
+    "description": "Tighten Redis cache/event usage, Stripe/PayPal flows, and OAS docs to detect regressions early using integration-tests/api coverage.",
+    "title": "Redis, Payments, and OAS Observability"
+  }
+]

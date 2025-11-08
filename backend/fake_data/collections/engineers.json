@@ -1,0 +1,377 @@
+[
+  {
+    "name": "Darlene Combs",
+    "title": "Lead Commerce Engineer",
+    "skills": [
+      "React",
+      "Node.js",
+      "GraphQL"
+    ],
+    "email": "dcombs39@heliosdrift.dev",
+    "github_user": "dcombs39",
+    "date_hired": "2022-04-24",
+    "pr_count": 133,
+    "estimation_accuracy": 0.84,
+    "bug_count": 28,
+    "avg_review_time": 19.18,
+    "token_cost": 20.192,
+    "monthly_performance": [
+      8.1,
+      7.33,
+      8.28,
+      9.33,
+      7.22,
+      7.22
+    ]
+  },
+  {
+    "name": "Bradley Smith",
+    "title": "Payments Specialist",
+    "skills": [
+      "WebSockets",
+      "TypeScript",
+      "NestJS"
+    ],
+    "email": "bsmith79@heliosdrift.dev",
+    "github_user": "bsmith79",
+    "date_hired": "2023-01-06",
+    "pr_count": 127,
+    "estimation_accuracy": 0.78,
+    "bug_count": 32,
+    "avg_review_time": 19.48,
+    "token_cost": 19.277,
+    "monthly_performance": [
+      9.4,
+      8.42,
+      6.94,
+      8.15,
+      6.94,
+      6.94
+    ]
+  },
+  {
+    "name": "Regina Young",
+    "title": "Payments Specialist",
+    "skills": [
+      "Event Sourcing",
+      "TypeScript",
+      "React"
+    ],
+    "email": "ryoung93@heliosdrift.dev",
+    "github_user": "ryoung93",
+    "date_hired": "2022-11-30",
+    "pr_count": 7,
+    "estimation_accuracy": 0.84,
+    "bug_count": 2,
+    "avg_review_time": 48.91,
+    "token_cost": 1.082,
+    "monthly_performance": [
+      7.79,
+      5.2,
+      5.43,
+      6.83,
+      6.28,
+      7.88
+    ]
+  },
+  {
+    "name": "Shelly Cook",
+    "title": "Staff TypeScript Developer",
+    "skills": [
+      "Node.js",
+      "WebSockets",
+      "Redis"
+    ],
+    "email": "scook74@heliosdrift.dev",
+    "github_user": "scook74",
+    "date_hired": "2019-07-18",
+    "pr_count": 31,
+    "estimation_accuracy": 0.78,
+    "bug_count": 14,
+    "avg_review_time": 40.38,
+    "token_cost": 4.884,
+    "monthly_performance": [
+      6.41,
+      5.81,
+      9.26,
+      7.23,
+      7.58,
+      5.79
+    ]
+  },
+  {
+    "name": "Wayne Peterson",
+    "title": "Senior Platform Engineer",
+    "skills": [
+      "Kafka",
+      "GraphQL",
+      "Node.js"
+    ],
+    "email": "wpeterson13@heliosdrift.dev",
+    "github_user": "wpeterson13",
+    "date_hired": "2021-02-14",
+    "pr_count": 4,
+    "estimation_accuracy": 0.76,
+    "bug_count": 0,
+    "avg_review_time": 29.39,
+    "token_cost": 0.586,
+    "monthly_performance": [
+      6.85,
+      7.63,
+      6.12,
+      7.95,
+      6.78,
+      7.15
+    ]
+  },
+  {
+    "name": "Jose Bell",
+    "title": "Staff TypeScript Developer",
+    "skills": [
+      "WebSockets",
+      "NestJS",
+      "Node.js"
+    ],
+    "email": "jbell96@heliosdrift.dev",
+    "github_user": "jbell96",
+    "date_hired": "2019-04-04",
+    "pr_count": 1,
+    "estimation_accuracy": 0.67,
+    "bug_count": 0,
+    "avg_review_time": 26.25,
+    "token_cost": 0.146,
+    "monthly_performance": [
+      6.78,
+      9.72,
+      7.48,
+      6.23,
+      8.49,
+      6.03
+    ]
+  },
+  {
+    "name": "Patrick Buck",
+    "title": "Lead Commerce Engineer",
+    "skills": [
+      "Node.js",
+      "Redis",
+      "Event Sourcing"
+    ],
+    "email": "pbuck38@heliosdrift.dev",
+    "github_user": "pbuck38",
+    "date_hired": "2021-07-17",
+    "pr_count": 9,
+    "estimation_accuracy": 0.85,
+    "bug_count": 0,
+    "avg_review_time": 54.09,
+    "token_cost": 1.336,
+    "monthly_performance": [
+      7.75,
+      5.15,
+      5.91,
+      7.74,
+      8.39,
+      7.71
+    ]
+  },
+  {
+    "name": "Stephanie Dunn",
+    "title": "Lead Commerce Engineer",
+    "skills": [
+      "Event Sourcing",
+      "Node.js",
+      "React"
+    ],
+    "email": "sdunn41@heliosdrift.dev",
+    "github_user": "sdunn41",
+    "date_hired": "2021-12-29",
+    "pr_count": 113,
+    "estimation_accuracy": 0.84,
+    "bug_count": 42,
+    "avg_review_time": 42.64,
+    "token_cost": 17.645,
+    "monthly_performance": [
+      7.36,
+      7.14,
+      5.73,
+      6.64,
+      6.95,
+      8.77
+    ]
+  },
+  {
+    "name": "Diane Rodriguez",
+    "title": "Developer Experience Engineer",
+    "skills": [
+      "GraphQL",
+      "NestJS",
+      "PostgreSQL"
+    ],
+    "email": "drodriguez63@heliosdrift.dev",
+    "github_user": "drodriguez63",
+    "date_hired": "2023-09-23",
+    "pr_count": 1,
+    "estimation_accuracy": 0.87,
+    "bug_count": 0,
+    "avg_review_time": 19.5,
+    "token_cost": 0.146,
+    "monthly_performance": [
+      7.91,
+      5.38,
+      7.89,
+      7.04,
+      6.69,
+      8.23
+    ]
+  },
+  {
+    "name": "Jeffrey Rivera",
+    "title": "Staff TypeScript Developer",
+    "skills": [
+      "Redis",
+      "Event Sourcing",
+      "Node.js"
+    ],
+    "email": "jrivera79@heliosdrift.dev",
+    "github_user": "jrivera79",
+    "date_hired": "2020-03-08",
+    "pr_count": 16,
+    "estimation_accuracy": 0.88,
+    "bug_count": 8,
+    "avg_review_time": 22.35,
+    "token_cost": 2.455,
+    "monthly_performance": [
+      8.74,
+      8.62,
+      6.49,
+      7.13,
+      7.9,
+      8.67
+    ]
+  },
+  {
+    "name": "Joseph Garcia",
+    "title": "Lead Commerce Engineer",
+    "skills": [
+      "Kafka",
+      "Redis",
+      "WebSockets"
+    ],
+    "email": "jgarcia13@heliosdrift.dev",
+    "github_user": "jgarcia13",
+    "date_hired": "2019-10-20",
+    "pr_count": 3,
+    "estimation_accuracy": 0.92,
+    "bug_count": 0,
+    "avg_review_time": 41.49,
+    "token_cost": 0.441,
+    "monthly_performance": [
+      6.92,
+      7.28,
+      6.17,
+      6.06,
+      8.48,
+      9.13
+    ]
+  },
+  {
+    "name": "Michaela Meyer",
+    "title": "Staff TypeScript Developer",
+    "skills": [
+      "WebSockets",
+      "Redis",
+      "GraphQL"
+    ],
+    "email": "mmeyer27@heliosdrift.dev",
+    "github_user": "mmeyer27",
+    "date_hired": "2021-01-11",
+    "pr_count": 8,
+    "estimation_accuracy": 0.73,
+    "bug_count": 3,
+    "avg_review_time": 43.32,
+    "token_cost": 1.291,
+    "monthly_performance": [
+      7.41,
+      8.7,
+      7.93,
+      6.73,
+      7.93,
+      9.35
+    ]
+  },
+  {
+    "name": "Brooke Webster",
+    "title": "Senior Platform Engineer",
+    "skills": [
+      "TypeScript",
+      "Node.js",
+      "React"
+    ],
+    "email": "bwebster87@heliosdrift.dev",
+    "github_user": "bwebster87",
+    "date_hired": "2022-07-09",
+    "pr_count": 25,
+    "estimation_accuracy": 0.72,
+    "bug_count": 11,
+    "avg_review_time": 83.55,
+    "token_cost": 4.069,
+    "monthly_performance": [
+      7.46,
+      9.38,
+      4.36,
+      8.49,
+      7.6,
+      7.14
+    ]
+  },
+  {
+    "name": "William Anderson",
+    "title": "Senior Fullstack Engineer",
+    "skills": [
+      "Redis",
+      "Kafka",
+      "Event Sourcing"
+    ],
+    "email": "wanderson81@heliosdrift.dev",
+    "github_user": "wanderson81",
+    "date_hired": "2022-02-07",
+    "pr_count": 10,
+    "estimation_accuracy": 0.7,
+    "bug_count": 5,
+    "avg_review_time": 61.39,
+    "token_cost": 1.592,
+    "monthly_performance": [
+      7.61,
+      5.11,
+      7.24,
+      7.93,
+      9.27,
+      6.88
+    ]
+  },
+  {
+    "name": "Mrs. Natasha Chapman",
+    "title": "Developer Experience Engineer",
+    "skills": [
+      "GraphQL",
+      "Event Sourcing",
+      "PostgreSQL"
+    ],
+    "email": "mchapman99@heliosdrift.dev",
+    "github_user": "mchapman99",
+    "date_hired": "2019-08-17",
+    "pr_count": 7,
+    "estimation_accuracy": 0.91,
+    "bug_count": 0,
+    "avg_review_time": 12.74,
+    "token_cost": 1.031,
+    "monthly_performance": [
+      6.53,
+      6.9,
+      8.6,
+      7.89,
+      6.86,
+      8.12
+    ]
+  }
+]

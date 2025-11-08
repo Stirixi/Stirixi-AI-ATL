@@ -1,0 +1,97 @@
+[
+  {
+    "name": "Amina Ortega",
+    "title": "Senior Backend Engineer, Commerce Systems",
+    "skills": [
+      "Node.js",
+      "TypeScript",
+      "Helios Drift",
+      "PostgreSQL",
+      "Redis"
+    ],
+    "email": "amina.ortega@talentpool.dev",
+    "github_user": "aminaortega",
+    "date_applied": "2025-07-12",
+    "pr_count": 37,
+    "estimation_accuracy": 0.89,
+    "bug_count": 5,
+    "avg_review_time": 49.5,
+    "token_cost": 33.56
+  },
+  {
+    "name": "Leo Nakamura",
+    "title": "Staff Platform Engineer",
+    "skills": [
+      "distributed systems",
+      "Redis",
+      "Kafka",
+      "Helios Drift",
+      "observability"
+    ],
+    "email": "leo.nakamura@talentpool.dev",
+    "github_user": "leonakamura",
+    "date_applied": "2025-09-07",
+    "pr_count": 8,
+    "estimation_accuracy": 0.9,
+    "bug_count": 5,
+    "avg_review_time": 17.8,
+    "token_cost": 106.61
+  },
+  {
+    "name": "Priya Desai",
+    "title": "Full-Stack Engineer, Storefront Integrations",
+    "skills": [
+      "React",
+      "helios drift-react",
+      "helios drift-js",
+      "TypeScript",
+      "UX"
+    ],
+    "email": "priya.desai@talentpool.dev",
+    "github_user": "priyadesai",
+    "date_applied": "2025-07-30",
+    "pr_count": 25,
+    "estimation_accuracy": 0.84,
+    "bug_count": 5,
+    "avg_review_time": 30.1,
+    "token_cost": 34.22
+  },
+  {
+    "name": "Jonas Becker",
+    "title": "Payments and Risk Engineer",
+    "skills": [
+      "Stripe",
+      "PayPal",
+      "Helios Drift payments",
+      "security",
+      "webhooks"
+    ],
+    "email": "jonas.becker@talentpool.dev",
+    "github_user": "jonasbecker",
+    "date_applied": "2025-08-10",
+    "pr_count": 31,
+    "estimation_accuracy": 0.68,
+    "bug_count": 0,
+    "avg_review_time": 41.1,
+    "token_cost": 108.01
+  },
+  {
+    "name": "Sara Kim",
+    "title": "QA Engineer, Integration & E2E",
+    "skills": [
+      "integration-tests",
+      "Playwright",
+      "API testing",
+      "contracts",
+      "CI/CD"
+    ],
+    "email": "sara.kim@talentpool.dev",
+    "github_user": "sarakim",
+    "date_applied": "2025-08-25",
+    "pr_count": 22,
+    "estimation_accuracy": 0.79,
+    "bug_count": 2,
+    "avg_review_time": 32.9,
+    "token_cost": 68.8
+  }
+]
