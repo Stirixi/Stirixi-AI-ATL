@@ -5,8 +5,8 @@ import {
   GitMerge,
   CheckCircle2,
 } from 'lucide-react';
-import { actionAPI } from '@/lib/api-client';
-import type { Action } from '@/lib/types';
+import { actionAPI, engineerAPI } from '@/lib/api-client';
+import type { Action, Engineer } from '@/lib/types';
 
 // Map backend event strings to unified timeline types
 function normalizeEvent(event: string): string {
@@ -65,6 +65,16 @@ export async function ProjectTimeline({ projectId }: { projectId: string }) {
   try {
     // Use server-side filtering by passing projectId directly to the API
     actions = (await actionAPI.getAll({ projectId })) as Action[];
+
+    // Fetch all engineers to map IDs to names
+    const engineers = (await engineerAPI.getAll()) as Engineer[];
+    const engineerMap = new Map(engineers.map((e) => [e._id, e.name]));
+
+    // Add engineer names to actions
+    actions = actions.map((action) => ({
+      ...action,
+      engineerName: engineerMap.get(action.engineer) || 'Unknown Engineer',
+    }));
   } catch (e) {
     error = e instanceof Error ? e.message : 'Failed to load actions';
     console.error('ProjectTimeline fetch error:', e);
@@ -102,7 +112,7 @@ export async function ProjectTimeline({ projectId }: { projectId: string }) {
                   </span>
                 </div>
                 <p className="text-xs text-muted-foreground mb-1">
-                  by {event.engineer}
+                  by {(event as any).engineerName || event.engineer}
                 </p>
                 <div className="flex items-center gap-2">
                   <p className="text-xs text-muted-foreground">

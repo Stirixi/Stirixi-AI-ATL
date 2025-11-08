@@ -10,7 +10,7 @@ class Action(BaseModel):
     id: Optional[PyObjectId] = Field(default_factory=PyObjectId, alias="_id")
     title: str
     description: str
-    project: Optional[str] = None  # Project ID as string
+    project: Optional[PyObjectId] = None  # ObjectId referencing Project
     date: datetime
     engineer: PyObjectId  # ObjectId referencing Engineer
     event: str  # e.g., "commit", "pr", "merged_pr", "review", "bug_fix"

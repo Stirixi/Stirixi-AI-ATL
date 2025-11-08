@@ -71,7 +71,7 @@ export async function ProspectiveHires() {
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">PRs Merged</span>
                   <span className="text-foreground font-medium">
-                    {prospect.pr_count}
+                    {prospect.pr_count}/month
                   </span>
                 </div>
                 <div className="flex items-center justify-between text-sm">

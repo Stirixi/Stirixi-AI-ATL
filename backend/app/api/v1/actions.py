@@ -28,8 +28,8 @@ async def get_actions(
             "$type": "objectId"
         }
     
-    if project_id:
-        query["project"] = project_id
+    if project_id and ObjectId.is_valid(project_id):
+        query["project"] = ObjectId(project_id)
     if event:
         query["event"] = event
     
@@ -62,6 +62,13 @@ async def create_action(action: Action):
     elif not isinstance(action_dict.get("engineer"), ObjectId):
         raise HTTPException(status_code=400, detail="Invalid engineer ID")
     
+    # Convert project ObjectId string to ObjectId if provided
+    if action_dict.get("project"):
+        if isinstance(action_dict["project"], str) and ObjectId.is_valid(action_dict["project"]):
+            action_dict["project"] = ObjectId(action_dict["project"])
+        elif not isinstance(action_dict["project"], ObjectId):
+            raise HTTPException(status_code=400, detail="Invalid project ID")
+    
     result = await db.actions.insert_one(action_dict)
     created_action = await db.actions.find_one({"_id": result.inserted_id})
     return created_action
@@ -82,6 +89,13 @@ async def update_action(action_id: str, action: Action):
             update_data["engineer"] = ObjectId(update_data["engineer"])
         elif not isinstance(update_data["engineer"], ObjectId):
             raise HTTPException(status_code=400, detail="Invalid engineer ID")
+    
+    # Convert project ObjectId string to ObjectId if provided
+    if "project" in update_data and update_data["project"]:
+        if isinstance(update_data["project"], str) and ObjectId.is_valid(update_data["project"]):
+            update_data["project"] = ObjectId(update_data["project"])
+        elif not isinstance(update_data["project"], ObjectId):
+            raise HTTPException(status_code=400, detail="Invalid project ID")
     
     result = await db.actions.update_one(
         {"_id": ObjectId(action_id)},
