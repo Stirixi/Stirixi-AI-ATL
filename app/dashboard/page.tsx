@@ -1,9 +1,9 @@
-import { AppHeader } from "@/components/app-header"
-import { DashboardOverview } from "@/components/dashboard-overview"
-import { TeamView } from "@/components/team-view"
-import { ProjectsList } from "@/components/projects-list"
-import { ProspectiveHires } from "@/components/prospective-hires"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { AppHeader } from '@/components/app-header';
+import { DashboardOverview } from '@/components/dashboard-overview';
+import { TeamView } from '@/components/team-view';
+import { ProjectsList } from '@/components/projects-list';
+import { ProspectiveHires } from '@/components/prospective-hires';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function DashboardPage() {
   return (
@@ -13,7 +13,9 @@ export default function DashboardPage() {
         <div className="space-y-6">
           <div>
             <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
-            <p className="text-muted-foreground mt-1">Track your engineering metrics and team performance</p>
+            <p className="text-muted-foreground mt-1">
+              Track your engineering metrics and team performance
+            </p>
           </div>
 
           <DashboardOverview />
@@ -37,5 +39,5 @@ export default function DashboardPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
