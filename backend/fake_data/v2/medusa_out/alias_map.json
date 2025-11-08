@@ -1,0 +1,176 @@
+{
+  "company": "Helios Drift",
+  "domain": "heliosdrift.dev",
+  "aliases": {
+    "jodom91": {
+      "display_name": "Jimmy Odom",
+      "github": "jodom91",
+      "email": "jodom91@heliosdrift.dev"
+    },
+    "mmoreno24": {
+      "display_name": "Melissa Moreno",
+      "github": "mmoreno24",
+      "email": "mmoreno24@heliosdrift.dev"
+    },
+    "mschultz13": {
+      "display_name": "Mario Schultz",
+      "github": "mschultz13",
+      "email": "mschultz13@heliosdrift.dev"
+    },
+    "eli45": {
+      "display_name": "Erin Li",
+      "github": "eli45",
+      "email": "eli45@heliosdrift.dev"
+    },
+    "hscott41": {
+      "display_name": "Holly Scott",
+      "github": "hscott41",
+      "email": "hscott41@heliosdrift.dev"
+    },
+    "adixon38": {
+      "display_name": "Andrew Dixon",
+      "github": "adixon38",
+      "email": "adixon38@heliosdrift.dev"
+    },
+    "krivera27": {
+      "display_name": "Keith Rivera",
+      "github": "krivera27",
+      "email": "krivera27@heliosdrift.dev"
+    },
+    "sjones23": {
+      "display_name": "Samantha Jones",
+      "github": "sjones23",
+      "email": "sjones23@heliosdrift.dev"
+    },
+    "sdavis96": {
+      "display_name": "Samantha Davis",
+      "github": "sdavis96",
+      "email": "sdavis96@heliosdrift.dev"
+    },
+    "adennis79": {
+      "display_name": "Andrea Dennis",
+      "github": "adennis79",
+      "email": "adennis79@heliosdrift.dev"
+    },
+    "mcastillo21": {
+      "display_name": "Mark Castillo",
+      "github": "mcastillo21",
+      "email": "mcastillo21@heliosdrift.dev"
+    },
+    "drodriguez85": {
+      "display_name": "David Rodriguez",
+      "github": "drodriguez85",
+      "email": "drodriguez85@heliosdrift.dev"
+    },
+    "mmarquez64": {
+      "display_name": "Miss Sandra Marquez",
+      "github": "mmarquez64",
+      "email": "mmarquez64@heliosdrift.dev"
+    },
+    "rphillips14": {
+      "display_name": "Richard Phillips",
+      "github": "rphillips14",
+      "email": "rphillips14@heliosdrift.dev"
+    },
+    "rhardin13": {
+      "display_name": "Richard Hardin",
+      "github": "rhardin13",
+      "email": "rhardin13@heliosdrift.dev"
+    },
+    "twilson21": {
+      "display_name": "Tiffany Wilson",
+      "github": "twilson21",
+      "email": "twilson21@heliosdrift.dev"
+    },
+    "jpeters37": {
+      "display_name": "Juan Peters",
+      "github": "jpeters37",
+      "email": "jpeters37@heliosdrift.dev"
+    },
+    "bbishop39": {
+      "display_name": "Brooke Bishop",
+      "github": "bbishop39",
+      "email": "bbishop39@heliosdrift.dev"
+    },
+    "jgarner74": {
+      "display_name": "Jacqueline Garner",
+      "github": "jgarner74",
+      "email": "jgarner74@heliosdrift.dev"
+    },
+    "gwilliams87": {
+      "display_name": "Gerald Williams",
+      "github": "gwilliams87",
+      "email": "gwilliams87@heliosdrift.dev"
+    },
+    "kwhitney13": {
+      "display_name": "Kimberly Whitney",
+      "github": "kwhitney13",
+      "email": "kwhitney13@heliosdrift.dev"
+    },
+    "rhines81": {
+      "display_name": "Rachel Hines",
+      "github": "rhines81",
+      "email": "rhines81@heliosdrift.dev"
+    },
+    "agray35": {
+      "display_name": "Amy Gray",
+      "github": "agray35",
+      "email": "agray35@heliosdrift.dev"
+    },
+    "jgraves93": {
+      "display_name": "John Graves",
+      "github": "jgraves93",
+      "email": "jgraves93@heliosdrift.dev"
+    },
+    "ksmith99": {
+      "display_name": "Kyle Smith",
+      "github": "ksmith99",
+      "email": "ksmith99@heliosdrift.dev"
+    },
+    "gnunez79": {
+      "display_name": "Gregory Nunez",
+      "github": "gnunez79",
+      "email": "gnunez79@heliosdrift.dev"
+    },
+    "aburke63": {
+      "display_name": "Andrea Burke",
+      "github": "aburke63",
+      "email": "aburke63@heliosdrift.dev"
+    },
+    "rspencer38": {
+      "display_name": "Robert Spencer",
+      "github": "rspencer38",
+      "email": "rspencer38@heliosdrift.dev"
+    }
+  },
+  "original_map": {
+    "RegisHubelia": "jodom91",
+    "SGFGOV": "mmoreno24",
+    "StephixOne": "mschultz13",
+    "WalkingPizza": "eli45",
+    "adrien2p": "hscott41",
+    "anup-a": "adixon38",
+    "carlos-r-l-rodrigues": "krivera27",
+    "dev-cj": "sjones23",
+    "dwene": "sdavis96",
+    "fPolic": "adennis79",
+    "gefgu": "mcastillo21",
+    "haabnaseem": "drodriguez85",
+    "jeffijoe": "mmarquez64",
+    "josetr": "rphillips14",
+    "kasperkristensen": "rhardin13",
+    "mirko-pira": "twilson21",
+    "nielswart": "jpeters37",
+    "olivermrbl": "bbishop39",
+    "pKorsholm": "jgarner74",
+    "patrick-medusajs": "gwilliams87",
+    "richardwardza": "kwhitney13",
+    "riqwan": "rhines81",
+    "sabakhilji": "agray35",
+    "sebastiannicolajsen": "jgraves93",
+    "shahednasser": "ksmith99",
+    "srindom": "gnunez79",
+    "suezzo": "aburke63",
+    "zakariaelas": "rspencer38"
+  }
+}

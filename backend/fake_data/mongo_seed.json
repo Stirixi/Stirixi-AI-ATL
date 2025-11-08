@@ -5482,7 +5482,9 @@
         "ea5bcaf429d948a38ff97f75"
       ],
       "importance": "critical",
-      "prospects": [],
+      "prospects": [
+        "e2de0d2ed6b374e9965d28b1"
+      ],
       "target_date": "2026-01-18",
       "start_date": "2025-10-12",
       "description": "Harden core workflows in packages/helios drift via stricter typing, idempotent handlers, and better error boundaries for orders, carts, and checkouts.",
@@ -5506,7 +5508,9 @@
         "dfcbcde1f51c7b343f6e98a1"
       ],
       "importance": "high",
-      "prospects": [],
+      "prospects": [
+        "17f4cd78a8551b8238fdbc41"
+      ],
       "target_date": "2026-03-11",
       "start_date": "2025-10-26",
       "description": "Ensure atomic stock updates across packages/inventory and stock-location with robust locking, deduped events, and accurate multi-warehouse availability.",
@@ -5529,7 +5533,9 @@
         "c7f65e878befc296c6475320"
       ],
       "importance": "medium",
-      "prospects": [],
+      "prospects": [
+        "bde4dd731002312baef561fd"
+      ],
       "target_date": "2026-03-01",
       "start_date": "2025-10-17",
       "description": "Align packages/helios drift-js and helios drift-react APIs with core routes, improving typing, pagination, and error messages for easier storefront integration.",
@@ -5552,7 +5558,10 @@
         "40fc991ca76eadba5f851f45"
       ],
       "importance": "exploratory",
-      "prospects": [],
+      "prospects": [
+        "aeb12ce3f72e2b0f92bb7e29",
+        "70966ef5ab44980e1b0dc686"
+      ],
       "target_date": "2026-03-06",
       "start_date": "2025-10-17",
       "description": "Tighten Redis cache/event usage, Stripe/PayPal flows, and OAS docs to detect regressions early using integration-tests/api coverage.",
@@ -5587,7 +5596,7 @@
       "bug_count": 5,
       "avg_review_time": 49.5,
       "token_cost": 33.56,
-      "performance": 8.85,
+      "performance": 6.57,
       "summary": "Owns checkout, orders, and pricing flows; focuses on stability, idempotency, and backward-compatible API design."
     },
     {
@@ -5609,7 +5618,7 @@
       "bug_count": 5,
       "avg_review_time": 17.8,
       "token_cost": 106.61,
-      "performance": 6.95,
+      "performance": 6.06,
       "summary": "Designs resilient infra, tunes Redis/event-bus pipelines, and bakes reliability checks into Helios Drift deployments."
     },
     {
@@ -5631,7 +5640,7 @@
       "bug_count": 5,
       "avg_review_time": 30.1,
       "token_cost": 34.22,
-      "performance": 8.4,
+      "performance": 6.24,
       "summary": "Integrates Helios Drift APIs into custom storefronts, ensuring SDKs stay aligned and developer experience is smooth."
     },
     {
@@ -5653,7 +5662,7 @@
       "bug_count": 0,
       "avg_review_time": 41.1,
       "token_cost": 108.01,
-      "performance": 6.35,
+      "performance": 4.31,
       "summary": "Owns payment flows, webhook reliability, and fraud checks; scrutinizes gateway changes for subtle regressions."
     },
     {
@@ -5675,7 +5684,7 @@
       "bug_count": 2,
       "avg_review_time": 32.9,
       "token_cost": 68.8,
-      "performance": 8.21,
+      "performance": 5.52,
       "summary": "Expands api integration tests for Helios Drift, inventory, and payments to catch regressions before production."
     }
   ],
@@ -5684,7 +5693,7 @@
       "_id": "8293ae1732489a1bd5cb0d0d",
       "title": "Scope Helios Drift Impact",
       "description": "Auto-label PRs by packages touched (helios drift, inventory, payments, redis) and estimate risk to checkout, fulfillment, and APIs.",
-      "project": null,
+      "project": "190cd3524d55799056519a1a",
       "date": "2024-06-01T05:00:00+00:00",
       "engineer": "70d850dcefaa941fe23f9aa5",
       "event": "pr_opened"
@@ -5693,7 +5702,7 @@
       "_id": "e69e0be5acd6684195b28f58",
       "title": "Deployment Risk Snapshot",
       "description": "Before deploy, list merged PRs touching helios drift, payments, redis, and inventory with inferred impact level.",
-      "project": null,
+      "project": "190cd3524d55799056519a1a",
       "date": "2024-06-05T09:00:00+00:00",
       "engineer": "70d850dcefaa941fe23f9aa5",
       "event": "deployment"
@@ -5702,7 +5711,7 @@
       "_id": "5a129ccdd07e7136b587e4a8",
       "title": "Link Fix to Regression Source",
       "description": "Map bug fixes to originating PRs and modules and suggest missing tests in integration-tests/api.",
-      "project": null,
+      "project": "190cd3524d55799056519a1a",
       "date": "2024-06-10T10:00:00+00:00",
       "engineer": "70d850dcefaa941fe23f9aa5",
       "event": "bug_fix"
@@ -5711,7 +5720,7 @@
       "_id": "42853c6a6aad9ae40dfd3d4c",
       "title": "Deployment Risk Snapshot",
       "description": "Before deploy, list merged PRs touching helios drift, payments, redis, and inventory with inferred impact level.",
-      "project": null,
+      "project": "190cd3524d55799056519a1a",
       "date": "2024-06-13T10:00:00+00:00",
       "engineer": "70d850dcefaa941fe23f9aa5",
       "event": "deployment"
@@ -5720,7 +5729,7 @@
       "_id": "8340babff2cfde123855a78e",
       "title": "Reviewed PR 163",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "190cd3524d55799056519a1a",
       "date": "2025-11-08T22:42:00.930045Z",
       "engineer": "70d850dcefaa941fe23f9aa5",
       "event": "review"
@@ -5729,7 +5738,7 @@
       "_id": "977a91f9399b37b88755d7fd",
       "title": "Deployment Risk Snapshot",
       "description": "Before deploy, list merged PRs touching helios drift, payments, redis, and inventory with inferred impact level.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-06-02T10:00:00+00:00",
       "engineer": "43dfa6c1b3bcb3145c4afce5",
       "event": "deployment"
@@ -5738,7 +5747,7 @@
       "_id": "581de117611c478f82f08e8d",
       "title": "Scope Helios Drift Impact",
       "description": "Auto-label PRs by packages touched (helios drift, inventory, payments, redis) and estimate risk to checkout, fulfillment, and APIs.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-06-03T06:00:00+00:00",
       "engineer": "43dfa6c1b3bcb3145c4afce5",
       "event": "pr_opened"
@@ -5747,7 +5756,7 @@
       "_id": "2292c29c591f88019cc827ae",
       "title": "Link Fix to Regression Source",
       "description": "Map bug fixes to originating PRs and modules and suggest missing tests in integration-tests/api.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-06-04T08:00:00+00:00",
       "engineer": "43dfa6c1b3bcb3145c4afce5",
       "event": "bug_fix"
@@ -5756,7 +5765,7 @@
       "_id": "e1d382e7bd7eb1b74d7c0071",
       "title": "Helios Drift Incident Triage",
       "description": "Correlate incident paths with recent changes in helios drift, payments, and redis to propose likely root causes.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-06-06T03:00:00+00:00",
       "engineer": "43dfa6c1b3bcb3145c4afce5",
       "event": "incident"
@@ -5765,7 +5774,7 @@
       "_id": "aaca10809858991478e4ed0e",
       "title": "Reviewed PR 163",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-11-08T22:42:00.930965Z",
       "engineer": "43dfa6c1b3bcb3145c4afce5",
       "event": "review"
@@ -5774,7 +5783,7 @@
       "_id": "ef9d99efadc2e91974128368",
       "title": "Link Fix to Regression Source",
       "description": "Map bug fixes to originating PRs and modules and suggest missing tests in integration-tests/api.",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2024-06-07T10:00:00+00:00",
       "engineer": "dc5202878b81348c50df0a8a",
       "event": "bug_fix"
@@ -5783,7 +5792,7 @@
       "_id": "28d3b0edc7d951c712e211bc",
       "title": "Helios Drift Incident Triage",
       "description": "Correlate incident paths with recent changes in helios drift, payments, and redis to propose likely root causes.",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2024-06-08T02:00:00+00:00",
       "engineer": "dc5202878b81348c50df0a8a",
       "event": "incident"
@@ -5792,7 +5801,7 @@
       "_id": "6f3ec89461e3d5ab1f7b42f6",
       "title": "Highlight High-Risk Changes",
       "description": "Summarize diff hotspots, cross-reference prior comments in helios drift core, and suggest focused review areas.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-07-09T06:00:00+00:00",
       "engineer": "dc5202878b81348c50df0a8a",
       "event": "review"
@@ -5801,7 +5810,7 @@
       "_id": "32ab74bbf0400e37ceb99368",
       "title": "Scope Helios Drift Impact",
       "description": "Auto-label PRs by packages touched (helios drift, inventory, payments, redis) and estimate risk to checkout, fulfillment, and APIs.",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2024-07-10T04:00:00+00:00",
       "engineer": "dc5202878b81348c50df0a8a",
       "event": "pr_opened"
@@ -5810,7 +5819,7 @@
       "_id": "acc27b50f3635531e2808fae",
       "title": "Reviewed PR 293",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2025-11-08T22:42:00.931856Z",
       "engineer": "dc5202878b81348c50df0a8a",
       "event": "review"
@@ -5819,7 +5828,7 @@
       "_id": "7b5d7d39ce5ceba82657649d",
       "title": "Link Fix to Regression Source",
       "description": "Map bug fixes to originating PRs and modules and suggest missing tests in integration-tests/api.",
-      "project": null,
+      "project": "190cd3524d55799056519a1a",
       "date": "2024-06-18T02:00:00+00:00",
       "engineer": "5311a16cc867586479ae6a7d",
       "event": "bug_fix"
@@ -5828,7 +5837,7 @@
       "_id": "720469764bdb80685e9f3343",
       "title": "Highlight High-Risk Changes",
       "description": "Summarize diff hotspots, cross-reference prior comments in helios drift core, and suggest focused review areas.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-07-22T06:00:00+00:00",
       "engineer": "5311a16cc867586479ae6a7d",
       "event": "review"
@@ -5837,7 +5846,7 @@
       "_id": "ffc2434b0060271cb663ca54",
       "title": "Highlight High-Risk Changes",
       "description": "Summarize diff hotspots, cross-reference prior comments in helios drift core, and suggest focused review areas.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-09-02T09:00:00+00:00",
       "engineer": "5311a16cc867586479ae6a7d",
       "event": "review"
@@ -5846,7 +5855,7 @@
       "_id": "bdb50b4e46cd914a69631c61",
       "title": "Deployment Risk Snapshot",
       "description": "Before deploy, list merged PRs touching helios drift, payments, redis, and inventory with inferred impact level.",
-      "project": null,
+      "project": "190cd3524d55799056519a1a",
       "date": "2024-09-05T07:00:00+00:00",
       "engineer": "5311a16cc867586479ae6a7d",
       "event": "deployment"
@@ -5855,7 +5864,7 @@
       "_id": "b0dcc93f66680da2177f8721",
       "title": "Reviewed PR 418",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "190cd3524d55799056519a1a",
       "date": "2025-11-08T22:42:00.932769Z",
       "engineer": "5311a16cc867586479ae6a7d",
       "event": "review"
@@ -5864,7 +5873,7 @@
       "_id": "e2ab63bd1755d25d994957b8",
       "title": "Helios Drift Incident Triage",
       "description": "Correlate incident paths with recent changes in helios drift, payments, and redis to propose likely root causes.",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2024-07-12T03:00:00+00:00",
       "engineer": "40fc991ca76eadba5f851f45",
       "event": "incident"
@@ -5873,7 +5882,7 @@
       "_id": "15dec1a6fbceb72f089d44cb",
       "title": "Helios Drift Incident Triage",
       "description": "Correlate incident paths with recent changes in helios drift, payments, and redis to propose likely root causes.",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2024-07-16T07:00:00+00:00",
       "engineer": "40fc991ca76eadba5f851f45",
       "event": "incident"
@@ -5882,7 +5891,7 @@
       "_id": "db26d64e9aeab9bc5a2058e2",
       "title": "Deployment Risk Snapshot",
       "description": "Before deploy, list merged PRs touching helios drift, payments, redis, and inventory with inferred impact level.",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2024-10-18T03:00:00+00:00",
       "engineer": "40fc991ca76eadba5f851f45",
       "event": "deployment"
@@ -5891,7 +5900,7 @@
       "_id": "cadedac87a76f84a1d0ebdda",
       "title": "Deployment Risk Snapshot",
       "description": "Before deploy, list merged PRs touching helios drift, payments, redis, and inventory with inferred impact level.",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2025-08-10T11:00:00+00:00",
       "engineer": "40fc991ca76eadba5f851f45",
       "event": "deployment"
@@ -5900,7 +5909,7 @@
       "_id": "503acce2c2402467d5b9bc8b",
       "title": "Reviewed PR 776",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2025-11-08T22:42:00.933812Z",
       "engineer": "40fc991ca76eadba5f851f45",
       "event": "review"
@@ -5909,7 +5918,7 @@
       "_id": "1b41e62f6dc3ec94bda19cab",
       "title": "Helios Drift Incident Triage",
       "description": "Correlate incident paths with recent changes in helios drift, payments, and redis to propose likely root causes.",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2024-07-19T12:00:00+00:00",
       "engineer": "7a29a6b8cf2c3283ff3b2be2",
       "event": "incident"
@@ -5918,7 +5927,7 @@
       "_id": "7e10ab6bb3176a0cbf91c8e4",
       "title": "Reviewed PR 885",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2025-11-08T22:42:00.934622Z",
       "engineer": "7a29a6b8cf2c3283ff3b2be2",
       "event": "review"
@@ -5927,7 +5936,7 @@
       "_id": "811fb9375f2dab8f7830de81",
       "title": "Highlight High-Risk Changes",
       "description": "Summarize diff hotspots, cross-reference prior comments in helios drift core, and suggest focused review areas.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-07-30T09:00:00+00:00",
       "engineer": "dfcbcde1f51c7b343f6e98a1",
       "event": "review"
@@ -5936,7 +5945,7 @@
       "_id": "2a11109a5313e610705e83a0",
       "title": "Highlight High-Risk Changes",
       "description": "Summarize diff hotspots, cross-reference prior comments in helios drift core, and suggest focused review areas.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-08-04T08:00:00+00:00",
       "engineer": "dfcbcde1f51c7b343f6e98a1",
       "event": "review"
@@ -5945,7 +5954,7 @@
       "_id": "14090f38afa382d4a3dfbcbf",
       "title": "Link Fix to Regression Source",
       "description": "Map bug fixes to originating PRs and modules and suggest missing tests in integration-tests/api.",
-      "project": null,
+      "project": "182a14af40fdbae685030a7d",
       "date": "2024-09-01T03:00:00+00:00",
       "engineer": "dfcbcde1f51c7b343f6e98a1",
       "event": "bug_fix"
@@ -5954,7 +5963,7 @@
       "_id": "5c31123d9d1838a39433a0f6",
       "title": "Highlight High-Risk Changes",
       "description": "Summarize diff hotspots, cross-reference prior comments in helios drift core, and suggest focused review areas.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-09-06T06:00:00+00:00",
       "engineer": "dfcbcde1f51c7b343f6e98a1",
       "event": "review"
@@ -5963,7 +5972,7 @@
       "_id": "2664b04e70ed64ac37fc184f",
       "title": "Reviewed PR 444",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "182a14af40fdbae685030a7d",
       "date": "2025-11-08T22:42:00.935422Z",
       "engineer": "dfcbcde1f51c7b343f6e98a1",
       "event": "review"
@@ -5972,7 +5981,7 @@
       "_id": "d762fd1c9a1a0e333ab49641",
       "title": "Deployment Risk Snapshot",
       "description": "Before deploy, list merged PRs touching helios drift, payments, redis, and inventory with inferred impact level.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-08-12T10:00:00+00:00",
       "engineer": "b8674b7a2eff2f8f386550ab",
       "event": "deployment"
@@ -5981,7 +5990,7 @@
       "_id": "9c0acfbb9bc94dff61bd96d2",
       "title": "Scope Helios Drift Impact",
       "description": "Auto-label PRs by packages touched (helios drift, inventory, payments, redis) and estimate risk to checkout, fulfillment, and APIs.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-08-24T06:00:00+00:00",
       "engineer": "b8674b7a2eff2f8f386550ab",
       "event": "pr_opened"
@@ -5990,7 +5999,7 @@
       "_id": "e76aee579526e6a35dc3f082",
       "title": "Scope Helios Drift Impact",
       "description": "Auto-label PRs by packages touched (helios drift, inventory, payments, redis) and estimate risk to checkout, fulfillment, and APIs.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-09-13T08:00:00+00:00",
       "engineer": "b8674b7a2eff2f8f386550ab",
       "event": "pr_opened"
@@ -5999,7 +6008,7 @@
       "_id": "410c4a16a204d44521a2da0d",
       "title": "Highlight High-Risk Changes",
       "description": "Summarize diff hotspots, cross-reference prior comments in helios drift core, and suggest focused review areas.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-09-18T04:00:00+00:00",
       "engineer": "b8674b7a2eff2f8f386550ab",
       "event": "review"
@@ -6008,7 +6017,7 @@
       "_id": "9180e2df83c1cdbc1af995ad",
       "title": "Reviewed PR 958",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-11-08T22:42:00.936384Z",
       "engineer": "b8674b7a2eff2f8f386550ab",
       "event": "review"
@@ -6017,7 +6026,7 @@
       "_id": "da423b1713e667fae20947cb",
       "title": "Deployment Risk Snapshot",
       "description": "Before deploy, list merged PRs touching helios drift, payments, redis, and inventory with inferred impact level.",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2024-08-25T09:00:00+00:00",
       "engineer": "cf334086983de58715ee1ebd",
       "event": "deployment"
@@ -6026,7 +6035,7 @@
       "_id": "705592e76ee9b0b63b6098b0",
       "title": "Reviewed PR 1125",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2025-11-08T22:42:00.937090Z",
       "engineer": "cf334086983de58715ee1ebd",
       "event": "review"
@@ -6035,7 +6044,7 @@
       "_id": "a32dfbd795a4313ad64a9cac",
       "title": "Helios Drift Incident Triage",
       "description": "Correlate incident paths with recent changes in helios drift, payments, and redis to propose likely root causes.",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2024-11-05T11:00:00+00:00",
       "engineer": "c7f65e878befc296c6475320",
       "event": "incident"
@@ -6044,7 +6053,7 @@
       "_id": "396dd479b696209eaa2e6b2a",
       "title": "Deployment Risk Snapshot",
       "description": "Before deploy, list merged PRs touching helios drift, payments, redis, and inventory with inferred impact level.",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2024-11-20T07:00:00+00:00",
       "engineer": "c7f65e878befc296c6475320",
       "event": "deployment"
@@ -6053,7 +6062,7 @@
       "_id": "a9124417d6199ecfdfe64389",
       "title": "Deployment Risk Snapshot",
       "description": "Before deploy, list merged PRs touching helios drift, payments, redis, and inventory with inferred impact level.",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2024-12-18T07:00:00+00:00",
       "engineer": "c7f65e878befc296c6475320",
       "event": "deployment"
@@ -6062,7 +6071,7 @@
       "_id": "523256398ed5b819be01667d",
       "title": "Deployment Risk Snapshot",
       "description": "Before deploy, list merged PRs touching helios drift, payments, redis, and inventory with inferred impact level.",
-      "project": null,
+      "project": "edc93367566a54b222917b1f",
       "date": "2025-01-01T08:00:00+00:00",
       "engineer": "c7f65e878befc296c6475320",
       "event": "deployment"
@@ -6071,7 +6080,7 @@
       "_id": "a7ec8751aaf240fe04c94923",
       "title": "Reviewed PR 1098",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "182a14af40fdbae685030a7d",
       "date": "2025-11-08T22:42:00.937864Z",
       "engineer": "c7f65e878befc296c6475320",
       "event": "review"
@@ -6080,7 +6089,7 @@
       "_id": "9f3c2f549ec4421efa3d7a58",
       "title": "Highlight High-Risk Changes",
       "description": "Summarize diff hotspots, cross-reference prior comments in helios drift core, and suggest focused review areas.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2024-12-29T02:00:00+00:00",
       "engineer": "7d9defed714798c38f722261",
       "event": "review"
@@ -6089,7 +6098,7 @@
       "_id": "0ee569c6db0be62c7e899425",
       "title": "Helios Drift Incident Triage",
       "description": "Correlate incident paths with recent changes in helios drift, payments, and redis to propose likely root causes.",
-      "project": null,
+      "project": "182a14af40fdbae685030a7d",
       "date": "2025-01-03T01:00:00+00:00",
       "engineer": "7d9defed714798c38f722261",
       "event": "incident"
@@ -6098,7 +6107,7 @@
       "_id": "2bedcdb9b56b4e175ee5668a",
       "title": "Highlight High-Risk Changes",
       "description": "Summarize diff hotspots, cross-reference prior comments in helios drift core, and suggest focused review areas.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-01-06T05:00:00+00:00",
       "engineer": "7d9defed714798c38f722261",
       "event": "review"
@@ -6107,7 +6116,7 @@
       "_id": "d5c27bccfca4f0ae7c0dcd2f",
       "title": "Reviewed PR 1959",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "182a14af40fdbae685030a7d",
       "date": "2025-11-08T22:42:00.938571Z",
       "engineer": "7d9defed714798c38f722261",
       "event": "review"
@@ -6116,7 +6125,7 @@
       "_id": "be29a6d25c8f35a1672d45ab",
       "title": "Scope Helios Drift Impact",
       "description": "Auto-label PRs by packages touched (helios drift, inventory, payments, redis) and estimate risk to checkout, fulfillment, and APIs.",
-      "project": null,
+      "project": "182a14af40fdbae685030a7d",
       "date": "2025-02-19T05:00:00+00:00",
       "engineer": "d547b0c0feb3c0c1ca9daae0",
       "event": "pr_opened"
@@ -6125,7 +6134,7 @@
       "_id": "1813d0db5d1fefd3050019cf",
       "title": "Highlight High-Risk Changes",
       "description": "Summarize diff hotspots, cross-reference prior comments in helios drift core, and suggest focused review areas.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-04-11T09:00:00+00:00",
       "engineer": "d547b0c0feb3c0c1ca9daae0",
       "event": "review"
@@ -6134,7 +6143,7 @@
       "_id": "a7bc07bf9815dce08c9a801a",
       "title": "Link Fix to Regression Source",
       "description": "Map bug fixes to originating PRs and modules and suggest missing tests in integration-tests/api.",
-      "project": null,
+      "project": "182a14af40fdbae685030a7d",
       "date": "2025-04-13T03:00:00+00:00",
       "engineer": "d547b0c0feb3c0c1ca9daae0",
       "event": "bug_fix"
@@ -6143,7 +6152,7 @@
       "_id": "92f961080d97914c05a2c081",
       "title": "Deployment Risk Snapshot",
       "description": "Before deploy, list merged PRs touching helios drift, payments, redis, and inventory with inferred impact level.",
-      "project": null,
+      "project": "182a14af40fdbae685030a7d",
       "date": "2025-04-29T10:00:00+00:00",
       "engineer": "d547b0c0feb3c0c1ca9daae0",
       "event": "deployment"
@@ -6152,7 +6161,7 @@
       "_id": "c0d53f3e16ca4d3840e8f0dc",
       "title": "Reviewed PR 2000",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "182a14af40fdbae685030a7d",
       "date": "2025-11-08T22:42:00.939348Z",
       "engineer": "d547b0c0feb3c0c1ca9daae0",
       "event": "review"
@@ -6161,7 +6170,7 @@
       "_id": "f2762f103c0fa7ccf56bfc72",
       "title": "Deployment Risk Snapshot",
       "description": "Before deploy, list merged PRs touching helios drift, payments, redis, and inventory with inferred impact level.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-03-17T09:00:00+00:00",
       "engineer": "ea5bcaf429d948a38ff97f75",
       "event": "deployment"
@@ -6170,7 +6179,7 @@
       "_id": "21fafd1efeed139e82514eab",
       "title": "Helios Drift Incident Triage",
       "description": "Correlate incident paths with recent changes in helios drift, payments, and redis to propose likely root causes.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-04-01T02:00:00+00:00",
       "engineer": "ea5bcaf429d948a38ff97f75",
       "event": "incident"
@@ -6179,7 +6188,7 @@
       "_id": "05ec17c7dd005bd25eec437a",
       "title": "Helios Drift Incident Triage",
       "description": "Correlate incident paths with recent changes in helios drift, payments, and redis to propose likely root causes.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-04-03T02:00:00+00:00",
       "engineer": "ea5bcaf429d948a38ff97f75",
       "event": "incident"
@@ -6188,7 +6197,7 @@
       "_id": "0c23ee4d8e6b6ceb8ae11105",
       "title": "Link Fix to Regression Source",
       "description": "Map bug fixes to originating PRs and modules and suggest missing tests in integration-tests/api.",
-      "project": null,
+      "project": "190cd3524d55799056519a1a",
       "date": "2025-04-24T09:00:00+00:00",
       "engineer": "ea5bcaf429d948a38ff97f75",
       "event": "bug_fix"
@@ -6197,7 +6206,7 @@
       "_id": "39c2d57af761f732a871b63b",
       "title": "Reviewed PR 2552",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-11-08T22:42:00.940152Z",
       "engineer": "ea5bcaf429d948a38ff97f75",
       "event": "review"
@@ -6206,7 +6215,7 @@
       "_id": "51b9a49ec5ccd05305238a3b",
       "title": "Link Fix to Regression Source",
       "description": "Map bug fixes to originating PRs and modules and suggest missing tests in integration-tests/api.",
-      "project": null,
+      "project": "182a14af40fdbae685030a7d",
       "date": "2025-05-06T09:00:00+00:00",
       "engineer": "095143655e452879cb95a648",
       "event": "bug_fix"
@@ -6215,7 +6224,7 @@
       "_id": "2d1d11e8e3f4c54b8f03a93a",
       "title": "Scope Helios Drift Impact",
       "description": "Auto-label PRs by packages touched (helios drift, inventory, payments, redis) and estimate risk to checkout, fulfillment, and APIs.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-05-10T12:00:00+00:00",
       "engineer": "095143655e452879cb95a648",
       "event": "pr_opened"
@@ -6224,7 +6233,7 @@
       "_id": "52471462878377ef73226750",
       "title": "Deployment Risk Snapshot",
       "description": "Before deploy, list merged PRs touching helios drift, payments, redis, and inventory with inferred impact level.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-05-19T09:00:00+00:00",
       "engineer": "095143655e452879cb95a648",
       "event": "deployment"
@@ -6233,7 +6242,7 @@
       "_id": "baeb64678ee8c840f0c90e7a",
       "title": "Highlight High-Risk Changes",
       "description": "Summarize diff hotspots, cross-reference prior comments in helios drift core, and suggest focused review areas.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-05-25T07:00:00+00:00",
       "engineer": "095143655e452879cb95a648",
       "event": "review"
@@ -6242,7 +6251,7 @@
       "_id": "9e21c2f3ab3c5dcd4a28b80a",
       "title": "Reviewed PR 2777",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-11-08T22:42:00.940930Z",
       "engineer": "095143655e452879cb95a648",
       "event": "review"
@@ -6251,7 +6260,7 @@
       "_id": "c412194944e1921f773b7f89",
       "title": "Scope Helios Drift Impact",
       "description": "Auto-label PRs by packages touched (helios drift, inventory, payments, redis) and estimate risk to checkout, fulfillment, and APIs.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-06-24T12:00:00+00:00",
       "engineer": "7d7d784b80c40ea20036ded8",
       "event": "pr_opened"
@@ -6260,7 +6269,7 @@
       "_id": "abb778389dc4821692ce1fb2",
       "title": "Highlight High-Risk Changes",
       "description": "Summarize diff hotspots, cross-reference prior comments in helios drift core, and suggest focused review areas.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-06-29T05:00:00+00:00",
       "engineer": "7d7d784b80c40ea20036ded8",
       "event": "review"
@@ -6269,7 +6278,7 @@
       "_id": "22fce7638ded480328d7de06",
       "title": "Scope Helios Drift Impact",
       "description": "Auto-label PRs by packages touched (helios drift, inventory, payments, redis) and estimate risk to checkout, fulfillment, and APIs.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-07-05T08:00:00+00:00",
       "engineer": "7d7d784b80c40ea20036ded8",
       "event": "pr_opened"
@@ -6278,7 +6287,7 @@
       "_id": "9d563c814310e101de6a46ba",
       "title": "Link Fix to Regression Source",
       "description": "Map bug fixes to originating PRs and modules and suggest missing tests in integration-tests/api.",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-07-09T06:00:00+00:00",
       "engineer": "7d7d784b80c40ea20036ded8",
       "event": "bug_fix"
@@ -6287,7 +6296,7 @@
       "_id": "ef57253998bbb00a1c48d936",
       "title": "Reviewed PR 2867",
       "description": "Posted critical review comment",
-      "project": null,
+      "project": "f8ee07f78e64e9a9ff4ac7f9",
       "date": "2025-11-08T22:42:00.942198Z",
       "engineer": "7d7d784b80c40ea20036ded8",
       "event": "review"
