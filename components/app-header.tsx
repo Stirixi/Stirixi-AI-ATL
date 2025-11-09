@@ -1,8 +1,8 @@
 "use client"
 
-import { Building2 } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import Image from "next/image"
 
 export function AppHeader() {
   const pathname = usePathname()
@@ -17,9 +17,13 @@ export function AppHeader() {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link href="/dashboard" className="flex items-center gap-3">
-            <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-primary">
-              <Building2 className="h-5 w-5 text-primary-foreground" />
-            </div>
+            <Image 
+              src="/Stirixi_Logo.png" 
+              alt="Stirixi Logo" 
+              width={32} 
+              height={32}
+              className="h-8 w-8 object-contain"
+            />
             <h1 className="text-lg font-semibold text-foreground">Stirixi</h1>
           </Link>
           <nav className="flex items-center gap-6">
