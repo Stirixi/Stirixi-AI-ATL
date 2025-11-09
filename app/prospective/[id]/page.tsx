@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+
 import { AppHeader } from '@/components/app-header';
 import { BackButton } from '@/components/back-button';
 import { EngineerProfile } from '@/components/engineer-profile';
@@ -5,6 +7,30 @@ import { EngineerMetrics } from '@/components/engineer-metrics';
 import { EngineerSBTPanel } from '@/components/engineer-sbt-panel';
 import { prospectAPI } from '@/lib/api-client';
 import type { Prospect, Engineer } from '@/lib/types';
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  try {
+    const prospect = (await prospectAPI.getById(id)) as Prospect;
+    return {
+      title: `${prospect.name} • Prospect Review`,
+      description:
+        prospect.title ||
+        'Review a prospective hire across delivery metrics, AI usage, and cultural signals.',
+    };
+  } catch (error) {
+    console.error('Prospect metadata lookup failed', error);
+    return {
+      title: 'Prospective Hire',
+      description:
+        'Review a prospective hire across delivery metrics, AI usage, and cultural signals.',
+    };
+  }
+}
 
 export default async function ProspectiveHirePage({
   params,

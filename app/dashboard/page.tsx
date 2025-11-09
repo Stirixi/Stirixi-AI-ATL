@@ -1,9 +1,20 @@
+import type { Metadata } from 'next';
+
 import { AppHeader } from '@/components/app-header';
 import { DashboardOverview } from '@/components/dashboard-overview';
 import { DashboardTabs } from '@/components/dashboard-tabs';
 import { TeamView } from '@/components/team-view';
 import { ProjectsList } from '@/components/projects-list';
 import { ProspectiveHires } from '@/components/prospective-hires';
+import { DashboardHighlights } from '@/components/dashboard-highlights';
+import { DashboardTimeControls } from '@/components/dashboard-time-controls';
+import { CommandCenter } from '@/components/command-center';
+
+export const metadata: Metadata = {
+  title: 'Executive Dashboard',
+  description:
+    'Track engineering throughput, project health, and hiring funnels in one Stirixi cockpit.',
+};
 
 export default async function DashboardPage({
   searchParams,

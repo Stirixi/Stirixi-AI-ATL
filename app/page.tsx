@@ -1,5 +1,12 @@
+import type { Metadata } from "next"
+
 import { OnboardingPanel } from "@/components/onboarding-panel"
 import { AppHeader } from "@/components/app-header"
+
+export const metadata: Metadata = {
+  title: "Integrations Onboarding",
+  description: "Connect GitHub, IDE agents, and ticketing data sources to boot Stirixi in under a day.",
+}
 
 export default function Home() {
   return (

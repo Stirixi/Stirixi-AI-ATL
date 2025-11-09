@@ -9,9 +9,12 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
-  generator: "v0.app",
+  title: {
+    default: "Stirixi AI ATL",
+    template: "%s | Stirixi AI ATL",
+  },
+  description: "Stirixi unifies engineering delivery, hiring, and AI operations into one cockpit.",
+  generator: "Stirixi Labs",
   icons: {
     icon: [
       {
