@@ -98,7 +98,10 @@ export function useStirixiAIChat() {
     hydrateInsights();
   }, [hydrateInsights]);
 
-  const postToAPI = useCallback(async (history: ChatMessage[]) => {
+  const postToAPI = useCallback(async (
+    history: ChatMessage[],
+    onChunk?: (text: string) => void
+  ) => {
     const response = await fetch('/api/stirixi-ai', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -107,12 +110,69 @@ export function useStirixiAIChat() {
           role,
           content,
         })),
+        stream: !!onChunk,
       }),
     });
-    const data = (await response.json()) as ChatResponse;
+
     if (!response.ok) {
+      const data = await response.json();
       throw new Error(data.error || 'Unable to reach StirixiAI');
     }
+
+    // Handle streaming response
+    if (onChunk && response.body) {
+      console.log('Starting stream reading...');
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let fullText = '';
+      let buffer = '';
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) {
+            console.log('Stream finished, total text:', fullText.length);
+            break;
+          }
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || '';
+
+          for (const line of lines) {
+            const trimmed = line.trim();
+            if (!trimmed || trimmed === 'data: [DONE]') continue;
+
+            if (trimmed.startsWith('data: ')) {
+              const data = trimmed.slice(6);
+
+              try {
+                const parsed = JSON.parse(data);
+                if (parsed.text) {
+                  fullText += parsed.text;
+                  console.log('Received chunk, total length:', fullText.length);
+                  onChunk(fullText);
+                } else {
+                  console.log('Parsed data but no text:', parsed);
+                }
+              } catch (e) {
+                console.error('JSON parse error in stream:', e);
+                console.error('Failed data:', data);
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Stream reading error:', error);
+        throw error;
+      }
+
+      console.log('Returning full message:', fullText.substring(0, 50) + '...');
+      return { message: fullText, insights: null };
+    }
+
+    // Handle non-streaming response
+    const data = (await response.json()) as ChatResponse;
     return data;
   }, []);
 
@@ -135,22 +195,47 @@ export function useStirixiAIChat() {
       setLoading(true);
       setError(null);
 
+      // Create a placeholder message for streaming
+      const replyId = createId();
+      const streamingReply: ChatMessage = {
+        id: replyId,
+        role: 'assistant',
+        content: '',
+      };
+
+      const historyWithPlaceholder = [...history, streamingReply];
+      setMessages(historyWithPlaceholder);
+
       try {
-        const data = await postToAPI(history);
-        setInsights(data.insights);
-        const reply: ChatMessage = {
-          id: createId(),
+        const data = await postToAPI(history, (text) => {
+          // Update the streaming message in real-time
+          const updatedMessages = historyWithPlaceholder.map((msg) =>
+            msg.id === replyId ? { ...msg, content: text } : msg
+          );
+          setMessages(updatedMessages);
+          messagesRef.current = updatedMessages;
+        });
+
+        if (data.insights) {
+          setInsights(data.insights);
+        }
+
+        // Final update with complete message (in case streaming didn't capture everything)
+        const finalReply: ChatMessage = {
+          id: replyId,
           role: 'assistant',
           content: data.message,
         };
-        const updatedHistory = [...history, reply];
+        const updatedHistory = [...history, finalReply];
         setMessages(updatedHistory);
         messagesRef.current = updatedHistory;
       } catch (err) {
         const fallback =
           err instanceof Error ? err.message : 'Unexpected StirixiAI error';
-        setMessages((prev) => [
-          ...prev,
+
+        // Remove the placeholder and add error message
+        setMessages([
+          ...history,
           {
             id: createId(),
             role: 'assistant',

@@ -1,3 +1,5 @@
+import type { Metadata } from "next"
+
 import Link from 'next/link';
 import { AppHeader } from '@/components/app-header';
 import { Button } from '@/components/ui/button';
@@ -44,6 +46,11 @@ const stats = [
   { label: 'Employee analytics', value: 'Soulbound' },
   { label: 'AI copilot engine', value: 'Gemini' },
 ];
+
+export const metadata: Metadata = {
+  title: "Integrations Onboarding",
+  description: "Connect GitHub, IDE agents, and ticketing data sources to boot Stirixi in under a day.",
+}
 
 export default function Home() {
   return (

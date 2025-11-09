@@ -18,6 +18,8 @@ env:
   NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1' }}
   NEXT_SERVER_API_URL: ${{ secrets.NEXT_SERVER_API_URL || 'http://backend:8000/api/v1' }}
   CORS_ORIGINS: ${{ secrets.CORS_ORIGINS || 'http://localhost:3000' }}
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY || '' }}
+  STIRIXI_AI_MODEL: ${{ secrets.STIRIXI_AI_MODEL || 'gemini-2.5-flash' }}
   GHCR_DEPLOY_USERNAME: ${{ secrets.GHCR_DEPLOY_USERNAME }}
   GHCR_DEPLOY_TOKEN: ${{ secrets.GHCR_DEPLOY_TOKEN }}
   PRIMARY_DOMAIN: ${{ secrets.PRIMARY_DOMAIN }}
@@ -95,7 +97,7 @@ jobs:
           host: ${{ secrets.VULTUR_HOST }}
           username: ${{ secrets.VULTUR_USER }}
           password: ${{ secrets.VULTUR_PASSWORD }}
-          envs: DEPLOY_PATH,BACKEND_IMAGE,FRONTEND_IMAGE,MONGODB_URL,MONGODB_DB_NAME,CORS_ORIGINS,NEXT_PUBLIC_API_URL,NEXT_SERVER_API_URL,GHCR_DEPLOY_USERNAME,GHCR_DEPLOY_TOKEN,PRIMARY_DOMAIN,CADDY_EMAIL
+          envs: DEPLOY_PATH,BACKEND_IMAGE,FRONTEND_IMAGE,MONGODB_URL,MONGODB_DB_NAME,CORS_ORIGINS,NEXT_PUBLIC_API_URL,NEXT_SERVER_API_URL,GEMINI_API_KEY,STIRIXI_AI_MODEL,GHCR_DEPLOY_USERNAME,GHCR_DEPLOY_TOKEN,PRIMARY_DOMAIN,CADDY_EMAIL
           script: |
             set -euo pipefail
             export DEBIAN_FRONTEND=noninteractive
@@ -122,6 +124,8 @@ jobs:
               printf 'CORS_ORIGINS=%s\n' "$CORS_ORIGINS"
               printf 'NEXT_PUBLIC_API_URL=%s\n' "$NEXT_PUBLIC_API_URL"
               printf 'NEXT_SERVER_API_URL=%s\n' "$NEXT_SERVER_API_URL"
+              printf 'GEMINI_API_KEY=%s\n' "$GEMINI_API_KEY"
+              printf 'STIRIXI_AI_MODEL=%s\n' "$STIRIXI_AI_MODEL"
               printf 'PRIMARY_DOMAIN=%s\n' "$PRIMARY_DOMAIN"
               printf 'CADDY_EMAIL=%s\n' "$CADDY_EMAIL"
             } > "$DEPLOY_DIR/.env"
