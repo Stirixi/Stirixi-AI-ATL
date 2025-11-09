@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import type { Engineer, Project, Prospect } from '@/lib/types';
 
 const GEMINI_MODEL =
-  process.env.STIRIXI_AI_MODEL || 'gemini-1.5-flash';
+  process.env.STIRIXI_AI_MODEL || 'gemini-2.5-flash';
 const GEMINI_API_KEY =
   process.env.GEMINI_API_KEY ||
   'AIzaSyAKcem8AOBySsGV-79qUFX2HRvQGlCzaxY';

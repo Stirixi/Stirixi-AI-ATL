@@ -3,7 +3,7 @@ name: Deploy to Vultur
 on:
   push:
     branches:
-      - deploy
+      - master
   workflow_dispatch:
 
 permissions:

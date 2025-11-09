@@ -5,6 +5,24 @@
 
 const DEFAULT_API_BASE_URL = 'http://localhost:8000/api/v1';
 
+const ensureHttpsForBrowser = (url: string) => {
+  if (typeof window === 'undefined') {
+    return url;
+  }
+
+  if (window.location.protocol === 'https:' && url?.startsWith('http://')) {
+    try {
+      const parsed = new URL(url);
+      parsed.protocol = 'https:';
+      return parsed.toString();
+    } catch {
+      return url.replace(/^http:/, 'https:');
+    }
+  }
+
+  return url;
+};
+
 const getApiBaseUrl = () => {
   const publicUrl = process.env.NEXT_PUBLIC_API_URL;
   if (typeof window === 'undefined') {
@@ -14,7 +32,8 @@ const getApiBaseUrl = () => {
       DEFAULT_API_BASE_URL
     );
   }
-  return publicUrl || DEFAULT_API_BASE_URL;
+  const browserUrl = publicUrl || DEFAULT_API_BASE_URL;
+  return ensureHttpsForBrowser(browserUrl);
 };
 
 const API_BASE_URL = getApiBaseUrl();

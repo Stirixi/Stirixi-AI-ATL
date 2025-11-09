@@ -146,6 +146,7 @@ SOLANA_RPC_URL=https://api.devnet.solana.com
 SOLANA_KEYPAIR_PATH=../deploy/stirixi-authority.json
 SOLANA_SBT_MINT=2dC2AxMLWncw5qaHgwjKA9V3PdYhPjjrTwqD6LocwBzi
 GEMINI_API_KEY=<your-key>   # optional; frontend falls back to provided demo key
+STIRIXI_AI_MODEL=gemini-2.5-flash
 ```
 
 > Hackathon Note: The repository already includes `deploy/stirixi-authority.json` and a Devnet mint. No wallet setup is required to demo SBTs.
