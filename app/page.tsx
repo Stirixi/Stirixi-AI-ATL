@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import { AppHeader } from '@/components/app-header';
-import { OnboardingPanel } from '@/components/onboarding-panel';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -10,6 +9,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { ArrowRight, BadgeCheck, BarChart3, Bot, Layers } from 'lucide-react';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 
 const capabilities = [
   {
@@ -40,8 +40,8 @@ const capabilities = [
 
 const stats = [
   { label: 'Connected systems', value: '5+' },
-  { label: 'Insight refresh', value: 'Live' },
-  { label: 'Proof-of-work SBTs', value: 'Active' },
+  { label: 'Engineer insights', value: 'Live' },
+  { label: 'Employee analytics', value: 'Soulbound' },
   { label: 'AI copilot engine', value: 'Gemini' },
 ];
 
@@ -59,23 +59,23 @@ export default function Home() {
             <div className="space-y-8">
               <div className="space-y-6">
                 <h1 className="text-4xl font-semibold tracking-tight md:text-5xl lg:text-6xl">
-                  Measure net-positive engineers with unified AI observability
+                  Identify net-positive engineers with AI-driven insights
                 </h1>
                 <p className="max-w-xl text-base text-muted-foreground md:text-lg">
-                  Stirixi AI ATL unifies GitHub, Linear, Gemini, Snowflake, and
-                  Solana credentials so CTOs finally see which teammates are
-                  accelerating—or slowing—delivery, and why.
+                  Stirixi unifies GitHub, Linear, AI tooling metrics, Snowflake
+                  analytics, and Solana credentials—giving CTOs complete
+                  visibility into which engineers accelerate delivery and why.
                 </p>
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <Button asChild size="lg" className="shadow-sm">
-                  <Link href="/dashboard">
-                    Open the demo cockpit
+                  <Link href="/integrations">
+                    Get Started
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
                 <Button asChild size="lg" variant="outline">
-                  <Link href="#inspiration">See how it works</Link>
+                  <Link href="/dashboard">View Dashboard</Link>
                 </Button>
               </div>
               <div className="grid w-full grid-cols-2 gap-4 text-sm text-muted-foreground sm:grid-cols-4">
@@ -94,9 +94,49 @@ export default function Home() {
             </div>
             <div className="relative mx-auto w-full max-w-md md:max-w-lg">
               <div className="absolute inset-0 -z-10 rounded-3xl bg-linear-to-br from-primary/15 via-secondary/10 to-background blur-3xl" />
-              <div className="rounded-3xl border border-border/70 bg-card/90 p-1 shadow-xl backdrop-blur">
-                <OnboardingPanel />
-              </div>
+              <Card className="p-6 bg-secondary/50 border-border shadow-xl backdrop-blur">
+                <div className="flex items-center gap-4 mb-4">
+                  <Avatar className="h-14 w-14">
+                    <AvatarFallback className="bg-primary text-primary-foreground text-lg">
+                      SK
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold text-foreground text-lg">
+                      Sarah Kim
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      Senior Full-Stack Engineer
+                    </p>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-lg bg-secondary/30 border border-border mb-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-muted-foreground">
+                      Performance Score
+                    </span>
+                    <span className="text-2xl font-bold text-green-500">
+                      8.7
+                    </span>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">PRs Merged</span>
+                    <span className="text-foreground font-medium">
+                      24/month
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">
+                      Bugs Generated
+                    </span>
+                    <span className="text-foreground font-medium">3</span>
+                  </div>
+                </div>
+              </Card>
             </div>
           </div>
         </section>
@@ -169,18 +209,18 @@ export default function Home() {
               </h3>
               <p className="text-base text-muted-foreground md:text-lg">
                 Explore how Stirixi pairs delivery analytics, AI copilots, and
-                proof-backed credentials to spotlight net-positive impact and
+                evidence-backed credentials to spotlight net-positive impact and
                 guide next best actions.
               </p>
               <div className="flex flex-wrap justify-center gap-3">
                 <Button asChild size="lg" className="shadow-sm">
-                  <Link href="/dashboard">
-                    Start the cockpit tour
+                  <Link href="/integrations">
+                    Get Started
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
                 <Button asChild size="lg" variant="outline">
-                  <Link href="/prospective">Connect with the team</Link>
+                  <Link href="/dashboard">View Dashboard</Link>
                 </Button>
               </div>
             </div>
