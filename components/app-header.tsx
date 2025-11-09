@@ -43,22 +43,23 @@ export function AppHeader() {
             <h1 className="text-lg font-semibold text-foreground">Stirixi</h1>
           </Link>
           <nav className="flex items-center gap-6">
-            {navItems.map((item) => {
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`text-sm transition-colors ${
-                    isActive
-                      ? 'text-foreground font-medium'
-                      : 'text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
+            {signedIn &&
+              navItems.map((item) => {
+                const isActive = pathname === item.href;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`text-sm transition-colors ${
+                      isActive
+                        ? 'text-foreground font-medium'
+                        : 'text-muted-foreground hover:text-foreground'
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             {signedIn === false && (
               <Link
                 href="/login"
