@@ -109,15 +109,15 @@ jobs:
             fi
             tar -xzf /tmp/deploy.tar.gz -C "$DEPLOY_DIR"
             rm -f /tmp/deploy.tar.gz
-            cat <<ENVVARS > "$DEPLOY_DIR/.env"
-BACKEND_IMAGE=${BACKEND_IMAGE}:latest
-FRONTEND_IMAGE=${FRONTEND_IMAGE}:latest
-BACKEND_PORT=8000
-FRONTEND_PORT=80
-MONGODB_URL=${MONGODB_URL}
-MONGODB_DB_NAME=${MONGODB_DB_NAME}
-CORS_ORIGINS=${CORS_ORIGINS}
-ENVVARS
+            {
+              printf 'BACKEND_IMAGE=%s:latest\n' "$BACKEND_IMAGE"
+              printf 'FRONTEND_IMAGE=%s:latest\n' "$FRONTEND_IMAGE"
+              printf 'BACKEND_PORT=8000\n'
+              printf 'FRONTEND_PORT=80\n'
+              printf 'MONGODB_URL=%s\n' "$MONGODB_URL"
+              printf 'MONGODB_DB_NAME=%s\n' "$MONGODB_DB_NAME"
+              printf 'CORS_ORIGINS=%s\n' "$CORS_ORIGINS"
+            } > "$DEPLOY_DIR/.env"
             cd "$DEPLOY_DIR"
             docker login ghcr.io -u "$GHCR_DEPLOY_USERNAME" -p "$GHCR_DEPLOY_TOKEN"
             docker compose -f docker-compose.prod.yml --env-file .env pull backend frontend || true
