@@ -1,0 +1,13 @@
+{
+    email {$CADDY_EMAIL}
+}
+
+{$PRIMARY_DOMAIN}, www.{$PRIMARY_DOMAIN} {
+    encode gzip zstd
+    reverse_proxy frontend:3000
+}
+
+api.{$PRIMARY_DOMAIN} {
+    encode gzip zstd
+    reverse_proxy backend:8000
+}

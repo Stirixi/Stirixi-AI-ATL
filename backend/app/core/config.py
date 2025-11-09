@@ -2,13 +2,30 @@ import json
 from pathlib import Path
 from typing import List, Sequence
 
-from pydantic import field_validator
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Get the backend directory (where .env should be)
 # config.py is in app/core/, so go up 2 levels to get to backend/
 BACKEND_DIR = Path(__file__).parent.parent.parent
 ENV_FILE = BACKEND_DIR / ".env"
+
+def _parse_cors(value: Sequence[str] | str) -> List[str]:
+    if isinstance(value, str):
+        value = value.strip()
+        if not value:
+            return []
+        if value.startswith("["):
+            try:
+                parsed = json.loads(value)
+            except json.JSONDecodeError as exc:
+                raise ValueError(
+                    "CORS_ORIGINS must be a JSON array or comma separated list"
+                ) from exc
+            return [origin.strip() for origin in parsed if origin.strip()]
+        return [origin.strip() for origin in value.split(",") if origin.strip()]
+    return [origin.strip() for origin in value if origin.strip()]
+
 
 class Settings(BaseSettings):
     # MongoDB
@@ -21,7 +38,10 @@ class Settings(BaseSettings):
     API_RELOAD: bool = True
     
     # CORS
-    CORS_ORIGINS: List[str] = ["http://localhost:3000", "http://localhost:3001"]
+    cors_origins_raw: str = Field(
+        default="http://localhost:3000,http://localhost:3001",
+        alias="CORS_ORIGINS",
+    )
     
     # Environment
     ENVIRONMENT: str = "development"
@@ -31,23 +51,12 @@ class Settings(BaseSettings):
         env_file_encoding="utf-8",
         case_sensitive=True,
         extra="ignore",
+        populate_by_name=True,
     )
 
-    @field_validator("CORS_ORIGINS", mode="before")
-    @classmethod
-    def parse_cors_origins(cls, value: Sequence[str] | str) -> Sequence[str]:
-        if isinstance(value, str):
-            value = value.strip()
-            if not value:
-                return []
-            if value.startswith("["):
-                try:
-                    parsed = json.loads(value)
-                except json.JSONDecodeError as exc:
-                    raise ValueError("CORS_ORIGINS must be a JSON array or comma separated list") from exc
-                return parsed
-            return [origin.strip() for origin in value.split(",") if origin.strip()]
-        return value
+    @property
+    def cors_origins(self) -> List[str]:
+        return _parse_cors(self.cors_origins_raw)
 
 
 settings = Settings()

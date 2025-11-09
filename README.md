@@ -86,11 +86,21 @@ The repo now ships with Dockerfiles for both the FastAPI backend (`backend/Docke
    - `MONGODB_URL`, `MONGODB_DB_NAME` – point to Atlas or accept the default `mongodb://mongo:27017` + `stirixi_ai_atl`.
    - `NEXT_PUBLIC_API_URL` – e.g. `http://104.156.255.210:8000/api/v1`; baked into the frontend image at build time.
    - `CORS_ORIGINS` – comma-separated origin list for the backend (include your production URL).
+   - `PRIMARY_DOMAIN` – the apex domain you’re pointing at this VM (e.g. `stirixi.tech`).
+   - `CADDY_EMAIL` – email Let’s Encrypt should use for renewal notices (any valid inbox).
 2. **Repository variables (optional)** – set `DEPLOY_PATH` if you prefer a path other than `/opt/stirixi-ai-atl` on the server.
-3. **Firewall/ports** – ensure ports `80` (frontend) and `8000` (backend API) are open on the Vultur instance.
+3. **Firewall/ports** – open ports `80` and `443` on the Vultur firewall (Caddy terminates TLS and proxies to the internal containers). Port `8000` no longer needs to be exposed publicly.
 4. **Mongo persistence** – the compose file mounts a `mongo_data` volume in Docker; Atlas users can comment out the `mongo` service and update `MONGODB_URL` accordingly.
 
 Once configured, every push to `main` will:
 
 - Build/push `ghcr.io/<owner>/<repo>-backend` and `...-frontend` images (tagged with the commit SHA and `latest`).
-- Copy the `deploy` bundle to the server, install Docker/Compose if missing, refresh the `.env` file, log in to GHCR, pull the latest images, and run `docker compose up -d --remove-orphans` so the backend, frontend, and MongoDB stay in sync.
+- Copy the `deploy` bundle to the server, install Docker/Compose if missing, refresh the `.env` file, log in to GHCR, pull the latest images, and run `docker compose up -d --remove-orphans` so the backend, frontend, MongoDB, and the new Caddy TLS proxy stay in sync.
+
+### TLS + domain checklist
+
+1. Register/configure your `.tech` (or any) domain with an **A record** pointing to `104.156.255.210` (add a `www` record if you want `www.domain.tech`).
+2. Populate `PRIMARY_DOMAIN` (apex only, no protocol) and `CADDY_EMAIL` secrets in GitHub; the workflow injects them into the `.env` file that Caddy reads.
+3. Ensure ports `80/443` are open in both the OS firewall (`ufw`/`iptables`) and any Vultr network firewall.
+4. On deploy, the `caddy` service automatically requests/renews certificates from Let’s Encrypt; no extra registration is required beyond providing the email.
+5. Browse to `https://yourdomain.tech` once DNS propagates (usually <15 minutes) to confirm the certificate is valid and traffic is proxied to the frontend. The API is available at `https://api.yourdomain.tech`.

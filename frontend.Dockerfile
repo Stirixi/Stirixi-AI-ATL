@@ -34,6 +34,7 @@ FROM base AS runner
 ARG NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
 WORKDIR /app
 ENV PORT=3000 \
+    HOST=0.0.0.0 \
     HOSTNAME=0.0.0.0 \
     NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 RUN corepack enable
@@ -42,4 +43,4 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
 COPY --from=deps /app/node_modules ./node_modules
 EXPOSE 3000
-CMD ["pnpm", "start", "--", "-p", "3000", "-H", "0.0.0.0"]
+CMD ["pnpm", "start"]

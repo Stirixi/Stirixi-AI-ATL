@@ -19,6 +19,8 @@ env:
   CORS_ORIGINS: ${{ secrets.CORS_ORIGINS || 'http://localhost:3000' }}
   GHCR_DEPLOY_USERNAME: ${{ secrets.GHCR_DEPLOY_USERNAME }}
   GHCR_DEPLOY_TOKEN: ${{ secrets.GHCR_DEPLOY_TOKEN }}
+  PRIMARY_DOMAIN: ${{ secrets.PRIMARY_DOMAIN }}
+  CADDY_EMAIL: ${{ secrets.CADDY_EMAIL || 'admin@example.com' }}
 
 jobs:
   build-and-deploy:
@@ -92,7 +94,7 @@ jobs:
           host: ${{ secrets.VULTUR_HOST }}
           username: ${{ secrets.VULTUR_USER }}
           password: ${{ secrets.VULTUR_PASSWORD }}
-          envs: DEPLOY_PATH,BACKEND_IMAGE,FRONTEND_IMAGE,MONGODB_URL,MONGODB_DB_NAME,CORS_ORIGINS,GHCR_DEPLOY_USERNAME,GHCR_DEPLOY_TOKEN
+          envs: DEPLOY_PATH,BACKEND_IMAGE,FRONTEND_IMAGE,MONGODB_URL,MONGODB_DB_NAME,CORS_ORIGINS,GHCR_DEPLOY_USERNAME,GHCR_DEPLOY_TOKEN,PRIMARY_DOMAIN,CADDY_EMAIL
           script: |
             set -euo pipefail
             export DEBIAN_FRONTEND=noninteractive
@@ -117,6 +119,8 @@ jobs:
               printf 'MONGODB_URL=%s\n' "$MONGODB_URL"
               printf 'MONGODB_DB_NAME=%s\n' "$MONGODB_DB_NAME"
               printf 'CORS_ORIGINS=%s\n' "$CORS_ORIGINS"
+              printf 'PRIMARY_DOMAIN=%s\n' "$PRIMARY_DOMAIN"
+              printf 'CADDY_EMAIL=%s\n' "$CADDY_EMAIL"
             } > "$DEPLOY_DIR/.env"
             cd "$DEPLOY_DIR"
             docker login ghcr.io -u "$GHCR_DEPLOY_USERNAME" -p "$GHCR_DEPLOY_TOKEN"
