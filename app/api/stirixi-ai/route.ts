@@ -5,10 +5,26 @@ import type { Engineer, Project, Prospect } from '@/lib/types';
 const GEMINI_MODEL =
   process.env.STIRIXI_AI_MODEL || 'gemini-2.5-flash';
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
+const GEMINI_STREAM_TIMEOUT_MS = Number(
+  process.env.GEMINI_STREAM_TIMEOUT_MS || 45000
+);
 const API_BASE_URL =
   process.env.NEXT_SERVER_API_URL ||
   process.env.NEXT_PUBLIC_API_URL ||
   'http://localhost:8000/api/v1';
+const INSIGHTS_CACHE_TTL_MS = Number(
+  process.env.STIRIXI_INSIGHTS_TTL_MS || 30_000
+);
+
+type CachedInsights = {
+  data: StirixiAIInsights;
+  expiresAt: number;
+};
+
+let cachedInsights: CachedInsights | null = null;
+
+const log = (...parts: unknown[]) =>
+  console.log('[StirixiAI]', ...parts);
 
 type Prompt = {
   _id: string;
@@ -115,6 +131,15 @@ function deriveInsights(): StirixiAIInsights {
 }
 
 async function gatherInsights(): Promise<StirixiAIInsights> {
+  const now = Date.now();
+  if (cachedInsights && cachedInsights.expiresAt > now) {
+    log('Using cached insights snapshot');
+    return cachedInsights.data;
+  }
+
+  log('Fetching fresh insights snapshot');
+  const start = performance.now();
+
   const [engineersResp, projectsResp, prospectsResp, promptsResp, actionsResp] = await Promise.all([
     fetchJSON<Engineer[]>('/engineers/'),
     fetchJSON<Project[]>('/projects/'),
@@ -254,13 +279,25 @@ async function gatherInsights(): Promise<StirixiAIInsights> {
     recentActions,
   ];
 
-  return {
+  const snapshotPayload: StirixiAIInsights = {
     snapshot,
     topEngineers,
     projectHealth,
     pipeline,
     contextBlock: contextLines.join('\n'),
   };
+
+  cachedInsights = {
+    data: snapshotPayload,
+    expiresAt: Date.now() + INSIGHTS_CACHE_TTL_MS,
+  };
+
+  log(
+    'Insights snapshot ready in',
+    `${Math.round(performance.now() - start)}ms`
+  );
+
+  return snapshotPayload;
 }
 
 function buildGeminiMessages(
@@ -280,7 +317,10 @@ function buildGeminiMessages(
   return [seed, ...history];
 }
 
-async function callGemini(contents: GeminiContent[]) {
+async function callGemini(
+  contents: GeminiContent[],
+  signal?: AbortSignal
+) {
   if (!GEMINI_API_KEY) {
     throw new Error('Missing GEMINI_API_KEY');
   }
@@ -301,6 +341,7 @@ async function callGemini(contents: GeminiContent[]) {
           maxOutputTokens: 1200,
         },
       }),
+      signal,
     }
   );
 
@@ -320,7 +361,10 @@ async function callGemini(contents: GeminiContent[]) {
   return text;
 }
 
-async function callGeminiStream(contents: GeminiContent[]) {
+async function callGeminiStream(
+  contents: GeminiContent[],
+  signal: AbortSignal
+) {
   if (!GEMINI_API_KEY) {
     throw new Error('Missing GEMINI_API_KEY');
   }
@@ -341,6 +385,7 @@ async function callGeminiStream(contents: GeminiContent[]) {
           maxOutputTokens: 1200,
         },
       }),
+      signal,
     }
   );
 
@@ -369,7 +414,11 @@ export async function POST(req: NextRequest) {
 
   try {
     if (useStreaming) {
-      const geminiResponse = await callGeminiStream(contents);
+      const abortController = new AbortController();
+      const geminiResponse = await callGeminiStream(
+        contents,
+        abortController.signal
+      );
 
       const encoder = new TextEncoder();
       const stream = new ReadableStream({
@@ -382,11 +431,51 @@ export async function POST(req: NextRequest) {
 
           const decoder = new TextDecoder();
           let buffer = '';
+          let chunkCount = 0;
+          let timeoutId: NodeJS.Timeout | null = null;
+
+          controller.enqueue(
+            encoder.encode(
+              `data: ${JSON.stringify({
+                status: 'context_ready',
+                snapshot: insights.snapshot,
+              })}\n\n`
+            )
+          );
+
+          const resetTimeout = () => {
+            if (timeoutId) {
+              clearTimeout(timeoutId);
+            }
+            timeoutId = setTimeout(() => {
+              console.error('[StirixiAI] Gemini stream timed out');
+              controller.enqueue(
+                encoder.encode(
+                  `data: ${JSON.stringify({
+                    error: 'Gemini stream timed out',
+                  })}\n\n`
+                )
+              );
+              controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+              controller.close();
+              abortController.abort();
+            }, GEMINI_STREAM_TIMEOUT_MS);
+          };
+
+          const clearTimeoutIfNeeded = () => {
+            if (timeoutId) {
+              clearTimeout(timeoutId);
+              timeoutId = null;
+            }
+          };
+
+          resetTimeout();
 
           try {
             while (true) {
               const { done, value } = await reader.read();
               if (done) break;
+              resetTimeout();
 
               buffer += decoder.decode(value, { stream: true });
               const lines = buffer.split('\n');
@@ -411,7 +500,8 @@ export async function POST(req: NextRequest) {
                     const text = parsed?.candidates?.[0]?.content?.parts?.[0]?.text;
 
                     if (text) {
-                      console.log('Streaming chunk:', text.substring(0, 50) + '...');
+                      chunkCount += 1;
+                      log('Streaming chunk:', text.substring(0, 50) + '...');
                       controller.enqueue(
                         encoder.encode(`data: ${JSON.stringify({ text })}\n\n`)
                       );
@@ -424,15 +514,26 @@ export async function POST(req: NextRequest) {
               }
             }
 
-            console.log('Stream completed successfully');
+            log('Stream completed successfully');
           } catch (error) {
-            console.error('Stream error:', error);
+            console.error('[StirixiAI] Stream error:', error);
             controller.enqueue(
               encoder.encode(
                 `data: ${JSON.stringify({ error: 'Stream failed' })}\n\n`
               )
             );
           } finally {
+            clearTimeoutIfNeeded();
+            if (chunkCount === 0) {
+              controller.enqueue(
+                encoder.encode(
+                  `data: ${JSON.stringify({
+                    text:
+                      'I was unable to synthesize a response from Gemini. Please try again.',
+                  })}\n\n`
+                )
+              );
+            }
             controller.enqueue(encoder.encode('data: [DONE]\n\n'));
             controller.close();
           }
@@ -447,7 +548,8 @@ export async function POST(req: NextRequest) {
         },
       });
     } else {
-      const reply = await callGemini(contents);
+      const abortController = new AbortController();
+      const reply = await callGemini(contents, abortController.signal);
       return NextResponse.json({
         message: reply,
         insights,
