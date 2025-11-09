@@ -3,6 +3,7 @@ import { BackButton } from '@/components/back-button';
 import { EngineerProfile } from '@/components/engineer-profile';
 import { EngineerMetrics } from '@/components/engineer-metrics';
 import { EngineerActivity } from '@/components/engineer-activity';
+import { EngineerSBTPanel } from '@/components/engineer-sbt-panel';
 import { engineerAPI } from '@/lib/api-client';
 import type { Engineer } from '@/lib/types';
 
@@ -36,6 +37,7 @@ export default async function EngineerPage({
             <>
               <EngineerProfile engineer={engineer} />
               <EngineerMetrics engineerId={id} engineer={engineer} />
+              <EngineerSBTPanel engineerId={id} />
               <EngineerActivity engineerId={id} />
             </>
           ) : (

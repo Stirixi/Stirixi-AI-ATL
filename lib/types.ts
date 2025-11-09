@@ -62,3 +62,18 @@ export interface Project {
   description: string;
   title: string;
 }
+
+export interface EngineerScore {
+  _id: string;
+  engineer_id: string;
+  project_id?: string | null;
+  engineer_wallet: string;
+  overall_score: number;
+  reliability_score: number;
+  ai_efficiency_score: number;
+  bug_rate: number;
+  confidence: number;
+  last_updated: string;
+  score_hash?: string | null;
+  solana_signature?: string | null;
+}

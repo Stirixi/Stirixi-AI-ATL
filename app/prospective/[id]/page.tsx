@@ -2,6 +2,7 @@ import { AppHeader } from '@/components/app-header';
 import { BackButton } from '@/components/back-button';
 import { EngineerProfile } from '@/components/engineer-profile';
 import { EngineerMetrics } from '@/components/engineer-metrics';
+import { EngineerSBTPanel } from '@/components/engineer-sbt-panel';
 import { prospectAPI } from '@/lib/api-client';
 import type { Prospect, Engineer } from '@/lib/types';
 
@@ -64,6 +65,7 @@ export default async function ProspectiveHirePage({
             engineer={engineerData}
             isProspective
           />
+          <EngineerSBTPanel engineerId={id} useMockOnly />
         </div>
       </main>
     </div>
