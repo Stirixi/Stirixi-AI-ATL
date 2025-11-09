@@ -7,7 +7,6 @@ import { CTA_SUGGESTIONS, useStirixiAIChat } from '@/lib/stirixi-ai-client';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
 
 function renderContent(text: string) {
@@ -21,16 +20,8 @@ function renderContent(text: string) {
 export function StirixiAIWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const {
-    messages,
-    input,
-    setInput,
-    loading,
-    insights,
-    error,
-    sendMessage,
-    handleSubmit,
-  } = useStirixiAIChat();
+  const { messages, input, setInput, loading, error, sendMessage, handleSubmit } =
+    useStirixiAIChat();
 
   useEffect(() => {
     if (messagesEndRef.current) {
@@ -41,7 +32,7 @@ export function StirixiAIWidget() {
   return (
     <div className="fixed bottom-4 left-4 right-4 z-50 flex flex-col items-end gap-3 sm:left-auto sm:right-4">
       {isOpen && (
-        <Card className="flex w-full max-w-full flex-col overflow-hidden border border-border shadow-2xl sm:max-w-md md:max-w-lg lg:max-w-xl max-h-[80vh]">
+        <Card className="flex w-full max-w-full flex-col overflow-hidden border border-border shadow-2xl sm:max-w-md md:max-w-lg">
           <div className="flex items-center justify-between border-b border-border bg-card px-4 py-3">
             <div>
               <p className="text-xs uppercase tracking-wide text-muted-foreground">
@@ -146,45 +137,6 @@ export function StirixiAIWidget() {
               </Button>
             </div>
           </form>
-
-          <div className="border-t border-border bg-muted/40 px-4 py-3">
-            <h4 className="mb-2 text-xs font-semibold uppercase tracking-wide text-foreground">
-              Org snapshot
-            </h4>
-            {insights ? (
-              <div className="grid grid-cols-2 gap-3 text-xs text-muted-foreground">
-                <div>
-                  <p>Engineers</p>
-                  <p className="text-base font-semibold text-foreground">
-                    {insights.snapshot.totalEngineers}
-                  </p>
-                </div>
-                <div>
-                  <p>Avg PRs/mo</p>
-                  <p className="text-base font-semibold text-foreground">
-                    {insights.snapshot.avgPrs}
-                  </p>
-                </div>
-                <div>
-                  <p>Avg bugs/mo</p>
-                  <p className="text-base font-semibold text-foreground">
-                    {insights.snapshot.avgBugs}
-                  </p>
-                </div>
-                <div>
-                  <p>Avg AI spend</p>
-                  <p className="text-base font-semibold text-foreground">
-                    ${insights.snapshot.avgTokenCost}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-3/4" />
-              </div>
-            )}
-          </div>
         </Card>
       )}
 
