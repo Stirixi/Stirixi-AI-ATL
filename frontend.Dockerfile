@@ -13,6 +13,7 @@ FROM base AS builder
 ARG NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
 ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
 WORKDIR /app
+RUN corepack enable
 COPY --from=deps /app/node_modules ./node_modules
 COPY app ./app
 COPY components ./components
@@ -35,6 +36,7 @@ WORKDIR /app
 ENV PORT=3000 \
     HOSTNAME=0.0.0.0 \
     NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+RUN corepack enable
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
