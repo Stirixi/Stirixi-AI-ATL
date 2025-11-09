@@ -54,6 +54,12 @@ async def create_indexes():
     await database.actions.create_index("date")
     await database.actions.create_index([("engineer", 1), ("date", -1)])
     await database.actions.create_index([("project", 1), ("date", -1)])
+
+    # Engineer score indexes
+    await database.engineer_scores.create_index(
+        [("engineer_id", 1), ("project_id", 1), ("last_updated", -1)]
+    )
+    await database.engineer_scores.create_index("score_hash", unique=True)
     
     print("✅ Database indexes created")
 
@@ -66,4 +72,3 @@ async def close_mongo_connection():
 def get_database():
     """Get database instance"""
     return db.client[settings.MONGODB_DB_NAME]
-

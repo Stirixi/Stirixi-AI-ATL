@@ -6,4 +6,5 @@ python-dotenv==1.0.1
 pydantic==2.9.2
 pydantic-settings==2.5.2
 python-multipart==0.0.12
-
+solana==0.30.2
+solders==0.18.1

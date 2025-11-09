@@ -33,6 +33,9 @@
    API_RELOAD=true
    CORS_ORIGINS=http://localhost:3000,http://localhost:3001
    ENVIRONMENT=development
+   SOLANA_RPC_URL=https://api.devnet.solana.com
+   SOLANA_KEYPAIR_PATH=/absolute/path/to/authority-keypair.json
+   SOLANA_SBT_MINT=<token2022 mint address>
    ```
 
 ## Getting Your MongoDB Atlas Connection String
@@ -61,7 +64,11 @@ CORS_ORIGINS=http://localhost:3000,http://localhost:3001
 
 # Environment
 ENVIRONMENT=development
+
+# Solana Token-2022 / SBTs
+SOLANA_RPC_URL=https://api.devnet.solana.com
+SOLANA_KEYPAIR_PATH=/absolute/path/to/authority-keypair.json
+SOLANA_SBT_MINT=<token2022 mint address>
 ```
 
 **Important:** Never commit your `.env` file to git! It's already in `.gitignore`.
-

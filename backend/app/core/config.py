@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from typing import List, Sequence
+from typing import List, Optional, Sequence
 
 from pydantic import field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -25,6 +25,12 @@ class Settings(BaseSettings):
     
     # Environment
     ENVIRONMENT: str = "development"
+
+    # Solana / SBT
+    SOLANA_RPC_URL: str = "https://api.devnet.solana.com"
+    SOLANA_KEYPAIR_PATH: Optional[str] = None
+    SOLANA_KEYPAIR_JSON: Optional[str] = None
+    SOLANA_SBT_MINT: Optional[str] = None
     
     model_config = SettingsConfigDict(
         env_file=str(ENV_FILE) if ENV_FILE.exists() else None,  # Only use .env if it exists

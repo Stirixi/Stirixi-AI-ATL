@@ -44,6 +44,14 @@ export const engineerAPI = {
   update: (id: string, data: any) =>
     fetchAPI(`/engineers/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
   delete: (id: string) => fetchAPI(`/engineers/${id}`, { method: 'DELETE' }),
+  getScores: (id: string, limit = 10) =>
+    fetchAPI(`/engineers/${id}/scores?limit=${limit}`),
+  getLatestScore: (id: string) => fetchAPI(`/engineers/${id}/scores/latest`),
+  publishScore: (id: string, data: any) =>
+    fetchAPI(`/engineers/${id}/scores`, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
 };
 
 // Prompt API

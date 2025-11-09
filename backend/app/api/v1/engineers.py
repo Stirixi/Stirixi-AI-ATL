@@ -1,8 +1,13 @@
-from fastapi import APIRouter, HTTPException
-from typing import List
+from datetime import datetime
+from typing import List, Optional
+
+from fastapi import APIRouter, HTTPException, Query
 from bson import ObjectId
+
 from app.core.database import get_database
-from app.models.engineer import Engineer
+from app.models.engineer import Engineer, PyObjectId
+from app.models.engineer_score import EngineerScore
+from app.services import SolanaSBTError, solana_sbt_service
 
 router = APIRouter()
 
@@ -83,3 +88,103 @@ async def delete_engineer(engineer_id: str):
     if result.deleted_count == 0:
         raise HTTPException(status_code=404, detail="Engineer not found")
     return None
+
+
+@router.post(
+    "/{engineer_id}/scores",
+    response_model=EngineerScore,
+    status_code=201,
+    summary="Publish an engineer score and mint the SBT",
+)
+async def publish_engineer_score(engineer_id: str, score: EngineerScore):
+    """Persist an engineer score snapshot, anchor it on Solana, and return it."""
+    if not ObjectId.is_valid(engineer_id):
+        raise HTTPException(status_code=400, detail="Invalid engineer ID")
+
+    db = get_database()
+    engineer = await db.engineers.find_one({"_id": ObjectId(engineer_id)})
+    if not engineer:
+        raise HTTPException(status_code=404, detail="Engineer not found")
+
+    score.engineer_id = PyObjectId(engineer_id)
+    score.last_updated = datetime.utcnow()
+
+    score_payload = score.model_dump(
+        mode="python",
+        exclude={"score_hash", "solana_signature", "id"},
+    )
+
+    sbt_payload = solana_sbt_service.build_soulbound_payload(
+        engineer=engineer,
+        score=score_payload,
+    )
+
+    try:
+        chain_result = await solana_sbt_service.mint_soulbound_token(
+            score.engineer_wallet, sbt_payload
+        )
+    except SolanaSBTError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Failed to record score on Solana: {exc}",
+        ) from exc
+
+    score.score_hash = chain_result.score_hash
+    score.solana_signature = chain_result.signature
+    score.last_updated = datetime.utcnow()
+
+    db_doc = score.model_dump(by_alias=True, mode="python")
+    if not isinstance(db_doc.get("engineer_id"), ObjectId):
+        db_doc["engineer_id"] = ObjectId(db_doc["engineer_id"])
+    if db_doc.get("project_id") and not isinstance(db_doc["project_id"], ObjectId):
+        db_doc["project_id"] = ObjectId(db_doc["project_id"])
+
+    result = await db.engineer_scores.insert_one(db_doc)
+    score.id = PyObjectId(result.inserted_id)
+    return score
+
+
+@router.get(
+    "/{engineer_id}/scores",
+    response_model=List[EngineerScore],
+    summary="List score snapshots for an engineer",
+)
+async def list_engineer_scores(
+    engineer_id: str,
+    limit: int = Query(
+        default=10,
+        ge=1,
+        le=100,
+        description="Maximum number of score documents to return (sorted newest first)",
+    ),
+):
+    if not ObjectId.is_valid(engineer_id):
+        raise HTTPException(status_code=400, detail="Invalid engineer ID")
+
+    db = get_database()
+    cursor = (
+        db.engineer_scores.find({"engineer_id": ObjectId(engineer_id)})
+        .sort("last_updated", -1)
+        .limit(limit)
+    )
+    documents = await cursor.to_list(length=limit)
+    return [EngineerScore.model_validate(doc) for doc in documents]
+
+
+@router.get(
+    "/{engineer_id}/scores/latest",
+    response_model=Optional[EngineerScore],
+    summary="Get the latest SBT snapshot for an engineer",
+)
+async def get_latest_engineer_score(engineer_id: str):
+    if not ObjectId.is_valid(engineer_id):
+        raise HTTPException(status_code=400, detail="Invalid engineer ID")
+
+    db = get_database()
+    document = await db.engineer_scores.find_one(
+        {"engineer_id": ObjectId(engineer_id)},
+        sort=[("last_updated", -1)],
+    )
+    if not document:
+        return None
+    return EngineerScore.model_validate(document)
