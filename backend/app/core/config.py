@@ -38,7 +38,7 @@ class Settings(BaseSettings):
     API_RELOAD: bool = True
     
     # CORS
-    cors_origins_raw: str = Field(
+    cors_origins_raw: str | List[str] = Field(
         default="http://localhost:3000,http://localhost:3001",
         alias="CORS_ORIGINS",
     )
