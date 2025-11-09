@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
-import { StirixiAIWidget } from "@/components/stirixi-ai-widget"
+import { StirixiAIWidgetGate } from "@/components/stirixi-ai-widget-gate"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
@@ -30,7 +30,7 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`font-sans antialiased overflow-y-scroll`}>
         {children}
-        <StirixiAIWidget />
+        <StirixiAIWidgetGate />
         <Analytics />
       </body>
     </html>

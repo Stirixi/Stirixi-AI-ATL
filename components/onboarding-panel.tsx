@@ -38,39 +38,20 @@ const createInitialState = () =>
 
 export function OnboardingPanel() {
   const [integrations, setIntegrations] = useState<Record<IntegrationKey, boolean>>(() => createInitialState())
-  const [initializing, setInitializing] = useState(true)
-  const [saving, setSaving] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  const [hydrated, setHydrated] = useState(false)
 
   useEffect(() => {
-    let mounted = true
-    const fetchSession = async () => {
-      try {
-        const response = await fetch('/api/session')
-        if (!response.ok) throw new Error('Failed to load session')
-        const data = await response.json()
-        const active = new Set<string>(data?.user?.connections ?? [])
-        if (!mounted) return
-        setIntegrations(() => {
-          const base = createInitialState()
-          integrationCatalog.forEach(({ key }) => {
-            base[key] = active.has(key)
-          })
-          return base
-        })
-      } catch (err) {
-        if (mounted) {
-          setError('Unable to load your integration status. Please refresh.')
-        }
-      } finally {
-        if (mounted) {
-          setInitializing(false)
-        }
+    if (typeof window === 'undefined') return
+    try {
+      const stored = window.localStorage.getItem('stirixi-integrations')
+      if (stored) {
+        const parsed = JSON.parse(stored) as Record<IntegrationKey, boolean>
+        setIntegrations((prev) => ({ ...prev, ...parsed }))
       }
-    }
-    fetchSession()
-    return () => {
-      mounted = false
+    } catch {
+      // Ignore localStorage errors and fall back to defaults
+    } finally {
+      setHydrated(true)
     }
   }, [])
 
@@ -80,44 +61,19 @@ export function OnboardingPanel() {
   )
   const totalIntegrations = integrationCatalog.length
 
-  const persistIntegrations = async (nextState: Record<IntegrationKey, boolean>, previousState: Record<IntegrationKey, boolean>) => {
-    setSaving(true)
-    setError(null)
-    try {
-      const connections = integrationCatalog
-        .filter((item) => nextState[item.key])
-        .map((item) => item.key)
-      const res = await fetch('/api/session', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ connections }),
-      })
-      if (!res.ok) {
-        throw new Error('Failed to save')
-      }
-    } catch (err) {
-      setIntegrations(() => ({ ...previousState }))
-      setError('We could not update your connections. Please try again.')
-    } finally {
-      setSaving(false)
-    }
-  }
-
   const handleConnect = (integration: IntegrationKey) => {
     setIntegrations((prev) => {
       const next = { ...prev, [integration]: !prev[integration] }
-      persistIntegrations(next, prev)
+      if (typeof window !== 'undefined') {
+        window.localStorage.setItem('stirixi-integrations', JSON.stringify(next))
+      }
       return next
     })
   }
 
-  const statusLabel = initializing
-    ? 'Loading your setup…'
-    : saving
-      ? 'Saving changes…'
-      : error
-        ? error
-        : `${connectedCount}/${totalIntegrations} integrations complete`
+  const statusLabel = hydrated
+    ? `${connectedCount}/${totalIntegrations} integrations complete`
+    : 'Loading your setup…'
 
   return (
     <Card className="p-6 bg-card border-border">
@@ -140,16 +96,14 @@ export function OnboardingPanel() {
               logo={integration.logo}
               connected={integrations[integration.key]}
               onConnect={() => handleConnect(integration.key)}
-              disabled={initializing || saving}
+              disabled={!hydrated}
             />
           ))}
         </div>
 
         <div className="pt-4 border-t border-border space-y-4">
           <div className="flex items-center justify-between">
-            <span className={`text-sm ${error ? 'text-red-500' : 'text-muted-foreground'}`}>
-              {statusLabel}
-            </span>
+            <span className="text-sm text-muted-foreground">{statusLabel}</span>
             <div className="flex gap-1">
               {Array.from({ length: totalIntegrations }).map((_, i) => (
                 <div

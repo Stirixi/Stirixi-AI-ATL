@@ -6,8 +6,6 @@ import { DashboardTabs } from '@/components/dashboard-tabs';
 import { TeamView } from '@/components/team-view';
 import { ProjectsList } from '@/components/projects-list';
 import { ProspectiveHires } from '@/components/prospective-hires';
-import { getSessionUser } from '@/lib/auth';
-import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Executive Dashboard',
@@ -21,10 +19,6 @@ export default async function DashboardPage({
   searchParams: Promise<{ tab?: string }>;
 }) {
   const params = await searchParams;
-  const user = await getSessionUser();
-  if (!user) {
-    redirect('/login?next=/dashboard');
-  }
 
   // Pre-render the async server components
   const teamView = <TeamView />;

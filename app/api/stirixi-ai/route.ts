@@ -28,6 +28,12 @@ const geminiClient = GEMINI_API_KEY
   ? new GoogleGenerativeAI(GEMINI_API_KEY)
   : null;
 
+const log = (...args: unknown[]) => {
+  if (process.env.NODE_ENV !== 'test') {
+    console.log('[StirixiAI]', ...args);
+  }
+};
+
 const DEFAULT_GENERATION_CONFIG = {
   temperature: 0.35,
   topK: 32,
