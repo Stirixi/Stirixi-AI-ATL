@@ -134,6 +134,7 @@ Enterprise engineering leaders are drowning in siloed metrics. Stirixi AI ATL is
 Create `.env.local` at the project root for the frontend:
 ```
 NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+NEXT_SERVER_API_URL=http://localhost:8000/api/v1
 ```
 
 Create `backend/.env` (copy from `.env.example`) with:
@@ -196,7 +197,7 @@ All endpoints return JSON with Pydantic validation.
    - Builds/pushes GHCR images for both services.  
    - SSHes into your Vultur VM (IP `104.156.255.210` by default), logs into GHCR, pulls images, and runs `docker compose up -d`.  
    - Seeds `.env` with `GEMINI_API_KEY`, `SOLANA` config, DB credentials, and `NEXT_PUBLIC_API_URL`.  
-4. **Secrets:** Add `VULTUR_HOST`, `VULTUR_USER`, `VULTUR_PASSWORD`, `GHCR_DEPLOY_USERNAME`, `GHCR_DEPLOY_TOKEN`, `MONGODB_URL`, `MONGODB_DB_NAME`, `NEXT_PUBLIC_API_URL`, and `CORS_ORIGINS` to GitHub Actions secrets.
+4. **Secrets:** Add `VULTUR_HOST`, `VULTUR_USER`, `VULTUR_PASSWORD`, `GHCR_DEPLOY_USERNAME`, `GHCR_DEPLOY_TOKEN`, `MONGODB_URL`, `MONGODB_DB_NAME`, `NEXT_PUBLIC_API_URL`, `NEXT_SERVER_API_URL`, and `CORS_ORIGINS` to GitHub Actions secrets.
 
 ---
 
