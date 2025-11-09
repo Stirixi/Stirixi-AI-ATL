@@ -16,21 +16,8 @@ export const metadata: Metadata = {
   description: "Stirixi unifies engineering delivery, hiring, and AI operations into one cockpit.",
   generator: "Stirixi Labs",
   icons: {
-    icon: [
-      {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
-    apple: "/apple-icon.png",
+    icon: "/Stirixi_Logo.png",
+    apple: "/Stirixi_Logo.png",
   },
 }
 
