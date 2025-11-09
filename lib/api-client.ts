@@ -3,8 +3,21 @@
  * Configure your API base URL in environment variables
  */
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+const DEFAULT_API_BASE_URL = 'http://localhost:8000/api/v1';
+
+const getApiBaseUrl = () => {
+  const publicUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (typeof window === 'undefined') {
+    return (
+      process.env.NEXT_SERVER_API_URL ||
+      publicUrl ||
+      DEFAULT_API_BASE_URL
+    );
+  }
+  return publicUrl || DEFAULT_API_BASE_URL;
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 async function fetchAPI<T>(
   endpoint: string,
