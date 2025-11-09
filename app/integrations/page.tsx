@@ -1,7 +1,13 @@
 import { AppHeader } from '@/components/app-header';
 import { OnboardingPanel } from '@/components/onboarding-panel';
+import { getSessionUser } from '@/lib/auth';
+import { redirect } from 'next/navigation';
 
-export default function IntegrationsPage() {
+export default async function IntegrationsPage() {
+  const user = await getSessionUser()
+  if (!user) {
+    redirect('/login?next=/integrations')
+  }
   return (
     <div className="min-h-screen bg-background">
       <AppHeader />

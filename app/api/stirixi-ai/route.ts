@@ -1,3 +1,4 @@
+import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextRequest, NextResponse } from 'next/server';
 
 import type { Engineer, Project, Prospect } from '@/lib/types';
@@ -23,8 +24,23 @@ type CachedInsights = {
 
 let cachedInsights: CachedInsights | null = null;
 
-const log = (...parts: unknown[]) =>
-  console.log('[StirixiAI]', ...parts);
+const geminiClient = GEMINI_API_KEY
+  ? new GoogleGenerativeAI(GEMINI_API_KEY)
+  : null;
+
+const DEFAULT_GENERATION_CONFIG = {
+  temperature: 0.35,
+  topK: 32,
+  topP: 0.9,
+  maxOutputTokens: 4096,
+} as const;
+
+const getGeminiModel = () => {
+  if (!geminiClient) {
+    throw new Error('Missing GEMINI_API_KEY');
+  }
+  return geminiClient.getGenerativeModel({ model: GEMINI_MODEL });
+};
 
 type Prompt = {
   _id: string;
@@ -321,82 +337,33 @@ async function callGemini(
   contents: GeminiContent[],
   signal?: AbortSignal
 ) {
-  if (!GEMINI_API_KEY) {
-    throw new Error('Missing GEMINI_API_KEY');
-  }
-
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        contents,
-        generationConfig: {
-          temperature: 0.35,
-          topK: 32,
-          topP: 0.9,
-          maxOutputTokens: 1200,
-        },
-      }),
-      signal,
-    }
+  const model = getGeminiModel();
+  const request = {
+    contents,
+    generationConfig: { ...DEFAULT_GENERATION_CONFIG },
+  };
+  const result = await model.generateContent(
+    request,
+    signal ? { signal } : undefined
   );
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(
-      `Gemini request failed (${response.status}): ${errorText}`
-    );
-  }
-
-  const data = await response.json();
-  const text =
-    data?.candidates?.[0]?.content?.parts
-      ?.map((part: { text?: string }) => part.text ?? '')
-      .join('\n')
-      .trim() ?? 'I was unable to generate a response.';
-  return text;
+  const text = result.response.text()?.trim();
+  return text?.length
+    ? text
+    : 'I was unable to generate a response.';
 }
 
 async function callGeminiStream(
   contents: GeminiContent[],
   signal: AbortSignal
 ) {
-  if (!GEMINI_API_KEY) {
-    throw new Error('Missing GEMINI_API_KEY');
-  }
+  const model = getGeminiModel();
+  const request = {
+    contents,
+    generationConfig: { ...DEFAULT_GENERATION_CONFIG },
+  };
 
-  const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:streamGenerateContent?alt=sse&key=${GEMINI_API_KEY}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        contents,
-        generationConfig: {
-          temperature: 0.35,
-          topK: 32,
-          topP: 0.9,
-          maxOutputTokens: 1200,
-        },
-      }),
-      signal,
-    }
-  );
-
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(
-      `Gemini request failed (${response.status}): ${errorText}`
-    );
-  }
-
-  return response;
+  return model.generateContentStream(request, { signal });
 }
 
 export async function GET() {
@@ -415,7 +382,7 @@ export async function POST(req: NextRequest) {
   try {
     if (useStreaming) {
       const abortController = new AbortController();
-      const geminiResponse = await callGeminiStream(
+      const geminiStreamResult = await callGeminiStream(
         contents,
         abortController.signal
       );
@@ -423,14 +390,6 @@ export async function POST(req: NextRequest) {
       const encoder = new TextEncoder();
       const stream = new ReadableStream({
         async start(controller) {
-          const reader = geminiResponse.body?.getReader();
-          if (!reader) {
-            controller.close();
-            return;
-          }
-
-          const decoder = new TextDecoder();
-          let buffer = '';
           let chunkCount = 0;
           let timeoutId: NodeJS.Timeout | null = null;
 
@@ -472,49 +431,23 @@ export async function POST(req: NextRequest) {
           resetTimeout();
 
           try {
-            while (true) {
-              const { done, value } = await reader.read();
-              if (done) break;
+            for await (const chunk of geminiStreamResult.stream) {
               resetTimeout();
+              let chunkText = '';
+              try {
+                chunkText = chunk.text();
+              } catch (err) {
+                console.error('[StirixiAI] Chunk text error:', err);
+              }
 
-              buffer += decoder.decode(value, { stream: true });
-              const lines = buffer.split('\n');
-              buffer = lines.pop() || '';
-
-              for (const line of lines) {
-                const trimmed = line.trim();
-                if (!trimmed) continue;
-
-                // Handle Gemini's SSE format
-                if (trimmed.startsWith('data: ')) {
-                  const jsonStr = trimmed.slice(6).trim();
-
-                  // Skip [DONE] marker
-                  if (jsonStr === '[DONE]') {
-                    console.log('Received [DONE] from Gemini');
-                    continue;
-                  }
-
-                  try {
-                    const parsed = JSON.parse(jsonStr);
-                    const text = parsed?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-                    if (text) {
-                      chunkCount += 1;
-                      log('Streaming chunk:', text.substring(0, 50) + '...');
-                      controller.enqueue(
-                        encoder.encode(`data: ${JSON.stringify({ text })}\n\n`)
-                      );
-                    }
-                  } catch (e) {
-                    console.error('JSON parse error:', e);
-                    console.error('Failed to parse:', jsonStr.substring(0, 100));
-                  }
-                }
+              if (chunkText) {
+                chunkCount += 1;
+                controller.enqueue(
+                  encoder.encode(`data: ${JSON.stringify({ text: chunkText })}\n\n`)
+                );
               }
             }
 
-            log('Stream completed successfully');
           } catch (error) {
             console.error('[StirixiAI] Stream error:', error);
             controller.enqueue(

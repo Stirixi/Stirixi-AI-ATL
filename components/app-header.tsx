@@ -3,14 +3,30 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
 
 export function AppHeader() {
   const pathname = usePathname();
+  const [signedIn, setSignedIn] = useState<boolean | null>(null);
 
   const navItems = [
     { href: '/dashboard', label: 'Dashboard' },
     { href: '/integrations', label: 'Integrations' },
   ];
+
+  useEffect(() => {
+    let mounted = true
+    fetch('/api/session')
+      .then((r) => r.json())
+      .then((d) => { if (mounted) setSignedIn(!!d?.signedIn) })
+      .catch(() => { if (mounted) setSignedIn(false) })
+    return () => { mounted = false }
+  }, [])
+
+  const signOut = async () => {
+    await fetch('/api/session', { method: 'DELETE' })
+    setSignedIn(false)
+  }
 
   return (
     <header className="border-b border-border bg-card">
@@ -43,6 +59,26 @@ export function AppHeader() {
                 </Link>
               );
             })}
+            {signedIn === false && (
+              <Link
+                href="/login"
+                className={`text-sm transition-colors ${
+                  pathname === '/login'
+                    ? 'text-foreground font-medium'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                Sign in
+              </Link>
+            )}
+            {signedIn && (
+              <button
+                onClick={signOut}
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
+                Sign out
+              </button>
+            )}
           </nav>
         </div>
       </div>

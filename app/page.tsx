@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 
 import Link from 'next/link';
+import { getSessionUser } from '@/lib/auth';
 import { AppHeader } from '@/components/app-header';
 import { Button } from '@/components/ui/button';
 import {
@@ -52,7 +53,8 @@ export const metadata: Metadata = {
   description: "Connect GitHub, IDE agents, and ticketing data sources to boot Stirixi in under a day.",
 }
 
-export default function Home() {
+export default async function Home() {
+  const user = await getSessionUser()
   return (
     <div className="min-h-screen bg-background text-foreground">
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
@@ -76,7 +78,7 @@ export default function Home() {
               </div>
               <div className="flex flex-wrap items-center gap-3">
                 <Button asChild size="lg" className="shadow-sm">
-                  <Link href="/integrations">
+                  <Link href={user ? '/integrations' : '/login?next=/integrations'}>
                     Get Started
                     <ArrowRight className="h-4 w-4" />
                   </Link>
