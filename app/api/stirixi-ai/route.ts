@@ -6,7 +6,9 @@ const GEMINI_MODEL =
   process.env.STIRIXI_AI_MODEL || 'gemini-2.5-flash';
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api/v1';
+  process.env.NEXT_SERVER_API_URL ||
+  process.env.NEXT_PUBLIC_API_URL ||
+  'http://localhost:8000/api/v1';
 
 type Prompt = {
   _id: string;
